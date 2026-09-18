@@ -5,8 +5,8 @@ import re
 import httpx
 import pytest
 
-from bing_webmaster_mcp.errors import AuthFailed, InvalidRequest, RateLimited
-from bing_webmaster_mcp.ops import indexnow
+from bing_webmaster_ai_cli_mcp.errors import AuthFailed, InvalidRequest, RateLimited
+from bing_webmaster_ai_cli_mcp.ops import indexnow
 
 HOST = "a.example"
 KEY = "0123456789abcdef0123456789abcdef"

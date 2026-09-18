@@ -661,9 +661,9 @@ def _instructions() -> str:
 
 def build_server() -> Server[Any]:
     return Server(
-        "bing-webmaster-mcp",
+        "bing-webmaster-ai-cli-mcp",
         version=__version__,
-        title="Bing Webmaster MCP",
+        title="Bing Webmaster AI CLI MCP",
         description="Read Bing Webmaster data and change it directly or through a plan.",
         instructions=_instructions(),
         on_list_tools=_on_list_tools,

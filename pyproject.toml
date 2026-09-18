@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "bing-webmaster-mcp"
+name = "bing-webmaster-ai-cli-mcp"
 version = "0.1.0"
-description = "bing-webmaster-mcp gives an AI agent read access to what Bing knows about your sites — traffic, indexing, crawl issues, inbound links, keywords — and a write path you choose: direct by default, or reviewed plan-and-apply."
+description = "bing-webmaster-ai-cli-mcp gives an AI agent read access to what Bing knows about your sites — traffic, indexing, crawl issues, inbound links, keywords — and a write path you choose: direct by default, or reviewed plan-and-apply."
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.12"
@@ -36,24 +36,24 @@ classifiers = [
 ]
 
 [project.urls]
-Changelog = "https://github.com/stufently/bing-webmaster-mcp/blob/main/CHANGELOG.md"
-Documentation = "https://github.com/stufently/bing-webmaster-mcp#readme"
-Issues = "https://github.com/stufently/bing-webmaster-mcp/issues"
-Repository = "https://github.com/stufently/bing-webmaster-mcp"
+Changelog = "https://github.com/stufently/bing-webmaster-ai-cli-mcp/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/stufently/bing-webmaster-ai-cli-mcp#readme"
+Issues = "https://github.com/stufently/bing-webmaster-ai-cli-mcp/issues"
+Repository = "https://github.com/stufently/bing-webmaster-ai-cli-mcp"
 
 [project.optional-dependencies]
 test = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.9"]
 
 [project.scripts]
-bing-wm = "bing_webmaster_mcp.cli:main"
-bing-webmaster-mcp = "bing_webmaster_mcp.mcp_server:main"
-bing-webmaster-mcp-http = "bing_webmaster_mcp.http_server:main"
+bing-wm = "bing_webmaster_ai_cli_mcp.cli:main"
+bing-webmaster-ai-cli-mcp = "bing_webmaster_ai_cli_mcp.mcp_server:main"
+bing-webmaster-ai-cli-mcp-http = "bing_webmaster_ai_cli_mcp.http_server:main"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
 pythonpath = [".", "tests"]
-filterwarnings = ["error::DeprecationWarning:bing_webmaster_mcp.*"]
+filterwarnings = ["error::DeprecationWarning:bing_webmaster_ai_cli_mcp.*"]
 
 [tool.ruff]
 line-length = 100

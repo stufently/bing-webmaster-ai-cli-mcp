@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from bing_webmaster_mcp.errors import (
+from bing_webmaster_ai_cli_mcp.errors import (
     BingWebmasterError,
     ErrorCode,
     PlanUnknownOutcome,

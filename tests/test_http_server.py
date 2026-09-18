@@ -4,9 +4,9 @@ import httpx
 import pytest
 from starlette.responses import JSONResponse
 
-from bing_webmaster_mcp.config import Settings
-from bing_webmaster_mcp.errors import AuthFailed, InvalidRequest
-from bing_webmaster_mcp.http_server import BearerGate, validate_http_settings
+from bing_webmaster_ai_cli_mcp.config import Settings
+from bing_webmaster_ai_cli_mcp.errors import AuthFailed, InvalidRequest
+from bing_webmaster_ai_cli_mcp.http_server import BearerGate, validate_http_settings
 
 
 async def _ok(scope, receive, send) -> None:

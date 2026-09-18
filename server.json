@@ -1,17 +1,17 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.stufently/bing-webmaster-mcp",
-  "title": "Bing Webmaster MCP",
+  "name": "io.github.stufently/bing-webmaster-ai-cli-mcp",
+  "title": "Bing Webmaster AI CLI MCP",
   "description": "Read Bing Webmaster data and change it, directly or through a reviewed plan.",
   "repository": {
-    "url": "https://github.com/stufently/bing-webmaster-mcp",
+    "url": "https://github.com/stufently/bing-webmaster-ai-cli-mcp",
     "source": "github"
   },
   "version": "0.1.0",
   "packages": [
     {
       "registryType": "pypi",
-      "identifier": "bing-webmaster-mcp",
+      "identifier": "bing-webmaster-ai-cli-mcp",
       "version": "0.1.0",
       "transport": {
         "type": "stdio"

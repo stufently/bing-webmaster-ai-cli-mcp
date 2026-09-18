@@ -16,7 +16,15 @@ _SCHEME = re.compile(r"^[A-Za-z][A-Za-z0-9+.\-]*://")
 
 
 def _default_state_dir() -> Path:
-    return Path.home() / ".local" / "state" / "bing-webmaster-mcp"
+    base = Path.home() / ".local" / "state"
+    current = base / "bing-webmaster-ai-cli-mcp"
+    # The project was called bing-webmaster-mcp until 2026-09-18. An install that
+    # predates the rename keeps its plans, audit log and daily write counters
+    # there; starting over in an empty directory would silently reset the quota.
+    legacy = base / "bing-webmaster-mcp"
+    if not current.exists() and legacy.is_dir():
+        return legacy
+    return current
 
 
 class Settings(BaseSettings):

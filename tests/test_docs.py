@@ -5,13 +5,13 @@ import struct
 import tomllib
 from pathlib import Path
 
-from bing_webmaster_mcp.mcp_server import TOOL_SPECS, tool_names
-from bing_webmaster_mcp.ops.crawl import CRAWL_ISSUE_CATEGORIES
-from bing_webmaster_mcp.writes import WRITE_OPS
+from bing_webmaster_ai_cli_mcp.mcp_server import TOOL_SPECS, tool_names
+from bing_webmaster_ai_cli_mcp.ops.crawl import CRAWL_ISSUE_CATEGORIES
+from bing_webmaster_ai_cli_mcp.writes import WRITE_OPS
 
 ROOT = Path(__file__).resolve().parents[1]
 PITCH = (
-    "bing-webmaster-mcp gives an AI agent read access to what Bing knows about your sites "
+    "bing-webmaster-ai-cli-mcp gives an AI agent read access to what Bing knows about your sites "
     "— traffic, indexing, crawl issues, inbound links, keywords — and a write path you "
     "choose: direct by default, or reviewed plan-and-apply."
 )
@@ -88,7 +88,7 @@ def test_configuration_names_every_setting() -> None:
 
 
 def test_supporting_metadata_exists() -> None:
-    assert "bing-webmaster-mcp" in (ROOT / "CITATION.cff").read_text()
+    assert "bing-webmaster-ai-cli-mcp" in (ROOT / "CITATION.cff").read_text()
     assert "## Unreleased" in (ROOT / "CHANGELOG.md").read_text()
     assert len((ROOT / "llms.txt").read_text().splitlines()) >= 8
 
@@ -96,7 +96,7 @@ def test_supporting_metadata_exists() -> None:
 def test_registry_metadata_matches_the_package_and_readme_marker() -> None:
     registry = json.loads((ROOT / "server.json").read_text())
     project = tomllib.loads((ROOT / "pyproject.toml").read_text())["project"]
-    assert registry["name"] == "io.github.stufently/bing-webmaster-mcp"
+    assert registry["name"] == "io.github.stufently/bing-webmaster-ai-cli-mcp"
     assert registry["version"] == project["version"]
     assert registry["packages"][0]["identifier"] == project["name"]
     assert registry["packages"][0]["version"] == project["version"]

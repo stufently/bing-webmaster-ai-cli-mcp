@@ -5,7 +5,7 @@ import json
 from click.testing import CliRunner
 from fakes import bing_transport, fake_settings
 
-from bing_webmaster_mcp import cli
+from bing_webmaster_ai_cli_mcp import cli
 
 
 def test_sites_list_prints_json(tmp_path, monkeypatch) -> None:
@@ -164,7 +164,7 @@ def test_plan_unlock_recovers_a_dead_apply_without_making_it_retryable(
 ) -> None:
     settings = fake_settings(tmp_path)
     monkeypatch.setattr(cli, "_load_settings", lambda **kwargs: settings)
-    monkeypatch.setattr("bing_webmaster_mcp.plans._pid_is_alive", lambda _pid: False)
+    monkeypatch.setattr("bing_webmaster_ai_cli_mcp.plans._pid_is_alive", lambda _pid: False)
     store = cli.PlanStore(tmp_path, settings.plan_ttl_seconds)
     plan = store.create("add_site", "https://a.example", {"site_url": "https://a.example"}, "x")
     (tmp_path / "plans" / f"{plan.plan_id}.lock").write_text("pid=12345\n")
@@ -276,7 +276,7 @@ def test_indexnow_key_generates_without_reaching_the_network(tmp_path, monkeypat
 def test_indexnow_key_checks_an_existing_key_file(tmp_path, monkeypatch) -> None:
     import httpx
 
-    from bing_webmaster_mcp.ops import indexnow
+    from bing_webmaster_ai_cli_mcp.ops import indexnow
 
     async def resolve(host: str) -> set[str]:
         return {"93.184.216.34"}

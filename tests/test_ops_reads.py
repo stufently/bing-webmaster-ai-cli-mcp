@@ -7,8 +7,8 @@ from typing import Any
 import pytest
 from fakes import bing_transport, fake_settings
 
-from bing_webmaster_mcp.client import BingClient
-from bing_webmaster_mcp.ops import (
+from bing_webmaster_ai_cli_mcp.client import BingClient
+from bing_webmaster_ai_cli_mcp.ops import (
     blocking,
     crawl,
     geo,
@@ -20,8 +20,8 @@ from bing_webmaster_mcp.ops import (
     submission,
     traffic,
 )
-from bing_webmaster_mcp.ops._common import normalise_site
-from bing_webmaster_mcp.render import REDACTED
+from bing_webmaster_ai_cli_mcp.ops._common import normalise_site
+from bing_webmaster_ai_cli_mcp.render import REDACTED
 
 
 @pytest.mark.parametrize(
@@ -56,7 +56,7 @@ def test_site_normalisation(raw: str, expected: str) -> None:
     ],
 )
 def test_unusable_site_urls_are_rejected(raw: str) -> None:
-    from bing_webmaster_mcp.errors import InvalidRequest
+    from bing_webmaster_ai_cli_mcp.errors import InvalidRequest
 
     with pytest.raises(InvalidRequest):
         normalise_site(raw)
@@ -285,7 +285,7 @@ def test_an_unexpected_crawl_issue_payload_is_returned_rather_than_discarded() -
 
 
 def test_site_url_with_an_unparsable_port_is_rejected() -> None:
-    from bing_webmaster_mcp.errors import InvalidRequest
+    from bing_webmaster_ai_cli_mcp.errors import InvalidRequest
 
     with pytest.raises(InvalidRequest):
         normalise_site("https://example.com:notaport")

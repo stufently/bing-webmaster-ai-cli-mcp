@@ -4,8 +4,8 @@ import re
 
 import pytest
 
-from bing_webmaster_mcp import mcp_server
-from bing_webmaster_mcp.writes import WRITE_OPS
+from bing_webmaster_ai_cli_mcp import mcp_server
+from bing_webmaster_ai_cli_mcp.writes import WRITE_OPS
 
 
 def test_applying_or_rejecting_a_recorded_plan_is_never_an_mcp_tool() -> None:
@@ -345,7 +345,7 @@ ROLE_ARGS = {
 
 
 def _record_role_plan(tmp_path) -> str:
-    from bing_webmaster_mcp.plans import PlanStore
+    from bing_webmaster_ai_cli_mcp.plans import PlanStore
 
     store = PlanStore(tmp_path, ttl_seconds=600)
     return store.create("add_site_roles", "https://a.example", dict(ROLE_ARGS), "delegate").plan_id

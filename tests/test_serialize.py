@@ -4,8 +4,13 @@ from datetime import UTC, datetime, timedelta, timezone
 
 import pytest
 
-from bing_webmaster_mcp._serialize import decode, encode_bing_datetime, parse_bing_datetime, unwrap
-from bing_webmaster_mcp.errors import MalformedResponse
+from bing_webmaster_ai_cli_mcp._serialize import (
+    decode,
+    encode_bing_datetime,
+    parse_bing_datetime,
+    unwrap,
+)
+from bing_webmaster_ai_cli_mcp.errors import MalformedResponse
 
 
 def test_unwrap_returns_d_and_rejects_other_shapes() -> None:

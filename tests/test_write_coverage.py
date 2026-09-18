@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from bing_webmaster_mcp.writes import WRITE_OPS
+from bing_webmaster_ai_cli_mcp.writes import WRITE_OPS
 
 DOC = Path(__file__).resolve().parents[1] / "docs" / "api-surface.md"
 ROW = re.compile(r"^\|\s*`(?P<method>\w+)`\s*\|.*\|\s*(?P<rw>[RW])\s*\|")

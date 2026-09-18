@@ -11,7 +11,7 @@ from mcp import ClientSession, StdioServerParameters, stdio_client
 async def smoke() -> None:
     parameters = StdioServerParameters(
         command=sys.executable,
-        args=["-m", "bing_webmaster_mcp.mcp_server"],
+        args=["-m", "bing_webmaster_ai_cli_mcp.mcp_server"],
     )
     async with stdio_client(parameters) as streams, ClientSession(*streams) as session:
         initialized = await session.initialize()

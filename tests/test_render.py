@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 
-from bing_webmaster_mcp.render import (
+from bing_webmaster_ai_cli_mcp.render import (
     REDACTED,
     REDACTED_CREDENTIAL,
     redact,

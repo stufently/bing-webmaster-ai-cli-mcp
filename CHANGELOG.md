@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Rename the project to `bing-webmaster-ai-cli-mcp`, matching `telegram-ai-cli-mcp` and
+  `zabbix-ai-cli-mcp`: it ships a real CLI as well as an MCP server, and the old name
+  only said the second. The GitHub repository, the distribution, the import package
+  (`bing_webmaster_ai_cli_mcp`), the MCP server name, the registry name in
+  `server.json` and the console scripts `bing-webmaster-ai-cli-mcp` and
+  `bing-webmaster-ai-cli-mcp-http` all follow. Unchanged on purpose: the `bing-wm`
+  command and the `BING_WM_*` environment variables. Nothing was published under the
+  old name, so no alias is kept. The default state directory moves to
+  `~/.local/state/bing-webmaster-ai-cli-mcp`, but an install that only has the old
+  `~/.local/state/bing-webmaster-mcp` keeps using it, so plans, the audit log and the
+  daily write counters are not reset by an upgrade.
+
 - Cover the API key itself at the same exit boundary. Microsoft documents the key only as
   a query-string parameter, so every URL this client builds carries a live credential —
   and the redaction that already scrubbed error text derived its literals from the

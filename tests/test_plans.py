@@ -6,10 +6,10 @@ from datetime import UTC, datetime, timedelta
 
 import pytest
 
-from bing_webmaster_mcp.audit import AuditLog
-from bing_webmaster_mcp.errors import InvalidRequest, PlanAlreadyApplied, PlanNotFound
-from bing_webmaster_mcp.plans import PlanStore
-from bing_webmaster_mcp.render import REDACTED
+from bing_webmaster_ai_cli_mcp.audit import AuditLog
+from bing_webmaster_ai_cli_mcp.errors import InvalidRequest, PlanAlreadyApplied, PlanNotFound
+from bing_webmaster_ai_cli_mcp.plans import PlanStore
+from bing_webmaster_ai_cli_mcp.render import REDACTED
 
 
 def test_plan_persists_with_expiry_and_owner_only_mode(tmp_path) -> None:
@@ -30,7 +30,7 @@ def test_plan_writer_handles_partial_os_writes(tmp_path, monkeypatch: pytest.Mon
     def partial_write(descriptor: int, data: bytes) -> int:
         return real_write(descriptor, data[:7])
 
-    monkeypatch.setattr("bing_webmaster_mcp.plans.os.write", partial_write)
+    monkeypatch.setattr("bing_webmaster_ai_cli_mcp.plans.os.write", partial_write)
     store = PlanStore(tmp_path, ttl_seconds=60)
     plan = store.create("x", "https://a.example", {"value": "x" * 100}, "partial")
 
@@ -74,7 +74,7 @@ def test_outcome_is_recorded_even_when_the_ttl_elapsed_mid_apply(tmp_path) -> No
 
 
 def test_reject_refuses_an_expired_or_locked_plan(tmp_path) -> None:
-    from bing_webmaster_mcp.errors import PlanExpired
+    from bing_webmaster_ai_cli_mcp.errors import PlanExpired
 
     store = PlanStore(tmp_path, ttl_seconds=60)
     expired = store.create("x", "site", {}, "x")
@@ -107,7 +107,7 @@ def test_recover_stale_lock_marks_an_unfinished_plan_unknown(
     plan = store.create("x", "site", {}, "x")
     lock = tmp_path / "plans" / f"{plan.plan_id}.lock"
     lock.write_text("pid=12345\n")
-    monkeypatch.setattr("bing_webmaster_mcp.plans._pid_is_alive", lambda _pid: False)
+    monkeypatch.setattr("bing_webmaster_ai_cli_mcp.plans._pid_is_alive", lambda _pid: False)
 
     recovered, owner_pid = store.recover_lock(plan.plan_id, AuditLog(tmp_path))
 
@@ -125,7 +125,7 @@ def test_recover_stale_lock_preserves_a_terminal_outcome(
     store.mark_applied(plan.plan_id)
     lock = tmp_path / "plans" / f"{plan.plan_id}.lock"
     lock.write_text("pid=12345\n")
-    monkeypatch.setattr("bing_webmaster_mcp.plans._pid_is_alive", lambda _pid: False)
+    monkeypatch.setattr("bing_webmaster_ai_cli_mcp.plans._pid_is_alive", lambda _pid: False)
 
     recovered, _ = store.recover_lock(plan.plan_id, AuditLog(tmp_path))
 
@@ -140,7 +140,7 @@ def test_recover_lock_refuses_a_live_owner_or_missing_lock(
     plan = store.create("x", "site", {}, "x")
     lock = tmp_path / "plans" / f"{plan.plan_id}.lock"
     lock.write_text("pid=12345\n")
-    monkeypatch.setattr("bing_webmaster_mcp.plans._pid_is_alive", lambda _pid: True)
+    monkeypatch.setattr("bing_webmaster_ai_cli_mcp.plans._pid_is_alive", lambda _pid: True)
 
     with pytest.raises(PlanAlreadyApplied):
         store.recover_lock(plan.plan_id, AuditLog(tmp_path))

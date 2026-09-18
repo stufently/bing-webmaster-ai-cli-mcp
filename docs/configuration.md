@@ -10,7 +10,7 @@ to plans or audit entries.
 | `BING_WM_CALLS_PER_SECOND` | `5` | local throttle, not a claimed Bing quota |
 | `BING_WM_MAX_ATTEMPTS` | `3` | attempts for retryable safe reads; writes never auto-retry |
 | `BING_WM_PLAN_TTL_SECONDS` | `900` | seconds before a plan expires |
-| `BING_WM_STATE_DIR` | user state directory | plans, audit log, and local counters |
+| `BING_WM_STATE_DIR` | `~/.local/state/bing-webmaster-ai-cli-mcp` (the pre-rename `~/.local/state/bing-webmaster-mcp` is used while only it exists) | plans, audit log, and local counters |
 | `BING_WM_ALLOW_WRITES` | `true` | `false` removes every one-step write and leaves only the reviewed plan path |
 | `BING_WM_DENIED_SITES` | `[]` | JSON list of sites that may never be mutated |
 | `BING_WM_MAX_WRITES_PER_DAY` | unset | optional operator local ceiling |

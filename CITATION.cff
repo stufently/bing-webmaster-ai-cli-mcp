@@ -1,6 +1,6 @@
 cff-version: 1.2.0
-message: "If you use bing-webmaster-mcp, please cite this software."
-title: "bing-webmaster-mcp"
+message: "If you use bing-webmaster-ai-cli-mcp, please cite this software."
+title: "bing-webmaster-ai-cli-mcp"
 type: software
 authors:
   - family-names: "T"
@@ -8,5 +8,5 @@ authors:
 version: 0.1.0
 date-released: 2026-08-25
 license: MIT
-repository-code: "https://github.com/stufently/bing-webmaster-mcp"
-url: "https://github.com/stufently/bing-webmaster-mcp"
+repository-code: "https://github.com/stufently/bing-webmaster-ai-cli-mcp"
+url: "https://github.com/stufently/bing-webmaster-ai-cli-mcp"

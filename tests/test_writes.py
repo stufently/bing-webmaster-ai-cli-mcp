@@ -4,8 +4,8 @@ import base64
 
 import pytest
 
-from bing_webmaster_mcp.errors import InvalidRequest
-from bing_webmaster_mcp.writes import WRITE_OPS, prepare_write
+from bing_webmaster_ai_cli_mcp.errors import InvalidRequest
+from bing_webmaster_ai_cli_mcp.writes import WRITE_OPS, prepare_write
 
 SITE = "https://a.example"
 

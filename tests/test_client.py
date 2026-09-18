@@ -8,8 +8,8 @@ import httpx
 import pytest
 from fakes import bing_transport, error_transport, fake_settings
 
-from bing_webmaster_mcp.client import BingClient
-from bing_webmaster_mcp.errors import (
+from bing_webmaster_ai_cli_mcp.client import BingClient
+from bing_webmaster_ai_cli_mcp.errors import (
     AuthFailed,
     InvalidRequest,
     MalformedResponse,
@@ -17,7 +17,7 @@ from bing_webmaster_mcp.errors import (
     RateLimited,
     UpstreamUnavailable,
 )
-from bing_webmaster_mcp.render import REDACTED, REDACTED_CREDENTIAL
+from bing_webmaster_ai_cli_mcp.render import REDACTED, REDACTED_CREDENTIAL
 
 
 async def test_get_unwraps_decodes_and_authenticates(tmp_path) -> None:
@@ -109,7 +109,7 @@ async def test_safe_read_retries_rate_limit(tmp_path, monkeypatch: pytest.Monkey
     async def no_sleep(delay: float) -> None:
         assert delay >= 0
 
-    monkeypatch.setattr("bing_webmaster_mcp.client.asyncio.sleep", no_sleep)
+    monkeypatch.setattr("bing_webmaster_ai_cli_mcp.client.asyncio.sleep", no_sleep)
     async with BingClient(
         fake_settings(tmp_path, max_attempts=2), transport=httpx.MockTransport(handler)
     ) as client:

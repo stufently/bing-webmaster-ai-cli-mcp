@@ -1,4 +1,4 @@
-# bing-webmaster-mcp — implementation spec
+# bing-webmaster-ai-cli-mcp — implementation spec
 
 Status: implemented for 0.1.0; release pending. Written 2026-08-25.
 
@@ -14,7 +14,7 @@ rests on are marked **verified** (fetched from a primary source on 2026-08-25) o
 An MCP server and CLI over the **Bing Webmaster Tools API**, plus first-class
 **IndexNow** submission.
 
-One sentence for the README and for anything that quotes it: *bing-webmaster-mcp
+One sentence for the README and for anything that quotes it: *bing-webmaster-ai-cli-mcp
 gives an AI agent read access to what Bing knows about your sites — traffic,
 indexing, crawl issues, inbound links, keywords — and a write path you choose:
 direct by default, or reviewed plan-and-apply.*
@@ -165,7 +165,7 @@ Mirror `telegram-ai-cli`, which is the proven template in this family. CLI and M
 must never diverge in behaviour, so both call one shared ops layer.
 
 ```
-bing_webmaster_mcp/
+bing_webmaster_ai_cli_mcp/
   cli.py              Click entry point, thin, dispatches into ops/
   config.py           settings via pydantic-settings, env-first
   auth.py             apikey now, OAuth2 behind the same interface later
@@ -396,7 +396,7 @@ supported until 2028 and 2029. `mcp` is at 2.1.0, `httpx` at 0.28.1.
   `pydantic-settings`, `click>=8.2,<9`, `mcp>=2.1,<3`), exact pins in
   `constraints.txt`, which is what CI and the Docker image install. Copy the
   comment from `telegram-ai-cli/pyproject.toml` explaining why.
-- Console script `bing-wm = "bing_webmaster_mcp.cli:main"`.
+- Console script `bing-wm = "bing_webmaster_ai_cli_mcp.cli:main"`.
 - Ruff: `line-length = 100`, `target-version = "py312"`,
   `select = ["E","F","I","UP","B","SIM","S"]`, `tests/*` exempt from `S101`.
 - MIT, matching the rest of the family.
@@ -416,7 +416,7 @@ what will not have absorbed the SOAP/POX retirement or the tick-date handling.
 `tests/` mirrors modules 1:1. `asyncio_mode = "auto"`, `testpaths = ["tests"]`,
 `pythonpath = [".", "tests"]` so the checkout and `fakes` import without requiring an
 editable install, and
-`filterwarnings = ["error::DeprecationWarning:bing_webmaster_mcp.*"]`.
+`filterwarnings = ["error::DeprecationWarning:bing_webmaster_ai_cli_mcp.*"]`.
 
 A shared `tests/fakes.py` provides a fake transport. **No test may reach the
 network.** Add a test that fails if a real HTTP call is attempted.

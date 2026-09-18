@@ -3,9 +3,9 @@ from __future__ import annotations
 import pytest
 from pydantic import ValidationError
 
-from bing_webmaster_mcp.auth import ApiKeyAuth, build_auth
-from bing_webmaster_mcp.config import Settings
-from bing_webmaster_mcp.errors import AuthFailed, InvalidRequest, PolicyDenied
+from bing_webmaster_ai_cli_mcp.auth import ApiKeyAuth, build_auth
+from bing_webmaster_ai_cli_mcp.config import Settings
+from bing_webmaster_ai_cli_mcp.errors import AuthFailed, InvalidRequest, PolicyDenied
 
 
 def test_settings_read_from_environment(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
@@ -151,3 +151,24 @@ def test_writes_are_allowed_unless_the_operator_turns_them_off(
 def test_apikey_auth_declares_the_literal_it_puts_in_the_request() -> None:
     """The redaction boundary asks the provider what it applied; nobody else knows."""
     assert ApiKeyAuth("abc").secrets() == frozenset({"abc"})
+
+
+def test_default_state_dir_uses_new_name(monkeypatch: pytest.MonkeyPatch, tmp_path) -> None:
+    from bing_webmaster_ai_cli_mcp.config import _default_state_dir
+
+    monkeypatch.setattr("pathlib.Path.home", lambda: tmp_path)
+    assert _default_state_dir() == tmp_path / ".local/state/bing-webmaster-ai-cli-mcp"
+
+
+def test_default_state_dir_keeps_pre_rename_state(
+    monkeypatch: pytest.MonkeyPatch, tmp_path
+) -> None:
+    from bing_webmaster_ai_cli_mcp.config import _default_state_dir
+
+    monkeypatch.setattr("pathlib.Path.home", lambda: tmp_path)
+    legacy = tmp_path / ".local/state/bing-webmaster-mcp"
+    legacy.mkdir(parents=True)
+    assert _default_state_dir() == legacy
+    current = tmp_path / ".local/state/bing-webmaster-ai-cli-mcp"
+    current.mkdir()
+    assert _default_state_dir() == current

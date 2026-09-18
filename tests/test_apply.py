@@ -9,10 +9,10 @@ import pytest
 from fakes import bing_transport, fake_settings
 from test_writes import sample_args
 
-from bing_webmaster_mcp.apply import apply_plan, execute_write
-from bing_webmaster_mcp.audit import AuditLog
-from bing_webmaster_mcp.client import BingClient
-from bing_webmaster_mcp.errors import (
+from bing_webmaster_ai_cli_mcp.apply import apply_plan, execute_write
+from bing_webmaster_ai_cli_mcp.audit import AuditLog
+from bing_webmaster_ai_cli_mcp.client import BingClient
+from bing_webmaster_ai_cli_mcp.errors import (
     InvalidRequest,
     PlanAlreadyApplied,
     PlanExpired,
@@ -21,10 +21,10 @@ from bing_webmaster_mcp.errors import (
     QuotaExceeded,
     UpstreamUnavailable,
 )
-from bing_webmaster_mcp.limits import RateLimiter
-from bing_webmaster_mcp.plans import PlanStore, create_write_plan
-from bing_webmaster_mcp.render import REDACTED
-from bing_webmaster_mcp.writes import WRITE_OPS
+from bing_webmaster_ai_cli_mcp.limits import RateLimiter
+from bing_webmaster_ai_cli_mcp.plans import PlanStore, create_write_plan
+from bing_webmaster_ai_cli_mcp.render import REDACTED
+from bing_webmaster_ai_cli_mcp.writes import WRITE_OPS
 
 
 async def test_creating_plan_sends_nothing_and_checks_live_quota(tmp_path) -> None:
@@ -41,7 +41,7 @@ async def test_creating_plan_sends_nothing_and_checks_live_quota(tmp_path) -> No
 
 
 async def test_batch_larger_than_remaining_quota_is_refused(tmp_path) -> None:
-    from bing_webmaster_mcp.errors import QuotaExceeded
+    from bing_webmaster_ai_cli_mcp.errors import QuotaExceeded
 
     args = {
         "site_url": "https://a.example",

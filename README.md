@@ -1,8 +1,8 @@
-# bing-webmaster-mcp
+# bing-webmaster-ai-cli-mcp
 
-<!-- mcp-name: io.github.stufently/bing-webmaster-mcp -->
+<!-- mcp-name: io.github.stufently/bing-webmaster-ai-cli-mcp -->
 
-bing-webmaster-mcp gives an AI agent read access to what Bing knows about your sites — traffic, indexing, crawl issues, inbound links, keywords — and a write path you choose: direct by default, or reviewed plan-and-apply.
+bing-webmaster-ai-cli-mcp gives an AI agent read access to what Bing knows about your sites — traffic, indexing, crawl issues, inbound links, keywords — and a write path you choose: direct by default, or reviewed plan-and-apply.
 
 It ships a Python 3.12+ CLI and MCP server for the JSON Bing Webmaster Tools API,
 plus protocol-correct IndexNow submission. SOAP and POX are deliberately absent.
@@ -74,7 +74,7 @@ recovery is audited.
 ## Install
 
 ```console
-python -m pip install bing-webmaster-mcp
+python -m pip install bing-webmaster-ai-cli-mcp
 ```
 
 The supported matrix is Python 3.12, 3.13, and 3.14. Development and images use the
@@ -93,7 +93,7 @@ all settings.
 
 ## MCP client configuration
 
-Run the stdio server with `bing-webmaster-mcp`. Point an MCP client at that executable
+Run the stdio server with `bing-webmaster-ai-cli-mcp`. Point an MCP client at that executable
 and pass `BING_WM_API_KEY` through its protected environment configuration. The server
 exposes 34 Bing read tools, one local read-only tool (`bing_indexnow_key_plan`), plan
 inspection, and one write tool per supported operation —
@@ -105,7 +105,7 @@ An optional Streamable HTTP entry point is also available:
 
 ```console
 export BING_WM_HTTP_BEARER_TOKEN='a-random-token-of-at-least-32-characters'
-bing-webmaster-mcp-http
+bing-webmaster-ai-cli-mcp-http
 ```
 
 It refuses non-loopback bind addresses and unauthenticated requests.

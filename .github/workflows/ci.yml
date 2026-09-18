@@ -58,6 +58,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - run: docker build --tag bing-webmaster-mcp:test .
+      - run: docker build --tag bing-webmaster-ai-cli-mcp:test .
       - name: Assert the image does not run as root
-        run: test "$(docker run --rm --entrypoint id bing-webmaster-mcp:test -u)" != "0"
+        run: test "$(docker run --rm --entrypoint id bing-webmaster-ai-cli-mcp:test -u)" != "0"

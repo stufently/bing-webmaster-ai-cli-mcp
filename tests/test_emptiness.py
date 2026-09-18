@@ -4,7 +4,7 @@ from typing import Any
 
 import pytest
 
-from bing_webmaster_mcp.emptiness import (
+from bing_webmaster_ai_cli_mcp.emptiness import (
     EMPTY_RESPONSE_NOTE,
     ROWS,
     SINGLE_RECORD,
@@ -12,7 +12,7 @@ from bing_webmaster_mcp.emptiness import (
     read_shape,
     returned_no_rows,
 )
-from bing_webmaster_mcp.ops import crawl
+from bing_webmaster_ai_cli_mcp.ops import crawl
 
 
 @pytest.mark.parametrize(

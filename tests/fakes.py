@@ -6,7 +6,7 @@ from typing import Any
 
 import httpx
 
-from bing_webmaster_mcp.config import Settings
+from bing_webmaster_ai_cli_mcp.config import Settings
 
 
 def fake_settings(tmp_path, **overrides: Any) -> Settings:

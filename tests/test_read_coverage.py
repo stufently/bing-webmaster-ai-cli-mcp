@@ -23,7 +23,8 @@ EXCLUDED = {"GetDeepLinkAlgoUrls", "GetDeepLink"}
 
 def test_every_supported_read_appears_in_exactly_one_domain_module() -> None:
     sources = {
-        name: (ROOT / "bing_webmaster_mcp" / "ops" / f"{name}.py").read_text() for name in MODULES
+        name: (ROOT / "bing_webmaster_ai_cli_mcp" / "ops" / f"{name}.py").read_text()
+        for name in MODULES
     }
     missing: list[str] = []
     duplicated: list[str] = []
@@ -56,8 +57,8 @@ SINGLE_RECORD_READS = {
 
 def test_every_read_tool_declares_whether_it_carries_rows() -> None:
     """An undeclared read would fall back to the label and cry silence over a record."""
-    from bing_webmaster_mcp.emptiness import SHAPE_ATTRIBUTE
-    from bing_webmaster_mcp.mcp_server import READ_TOOLS
+    from bing_webmaster_ai_cli_mcp.emptiness import SHAPE_ATTRIBUTE
+    from bing_webmaster_ai_cli_mcp.mcp_server import READ_TOOLS
 
     undeclared = [
         name for name, function in READ_TOOLS.items() if not hasattr(function, SHAPE_ATTRIBUTE)
@@ -66,8 +67,8 @@ def test_every_read_tool_declares_whether_it_carries_rows() -> None:
 
 
 def test_the_single_record_reads_are_exactly_the_ones_listed() -> None:
-    from bing_webmaster_mcp.emptiness import SINGLE_RECORD, read_shape
-    from bing_webmaster_mcp.mcp_server import READ_TOOLS
+    from bing_webmaster_ai_cli_mcp.emptiness import SINGLE_RECORD, read_shape
+    from bing_webmaster_ai_cli_mcp.mcp_server import READ_TOOLS
 
     declared = {
         name for name, function in READ_TOOLS.items() if read_shape(function) == SINGLE_RECORD
@@ -76,7 +77,7 @@ def test_the_single_record_reads_are_exactly_the_ones_listed() -> None:
 
 
 def test_the_cli_only_read_declares_its_shape_too() -> None:
-    from bing_webmaster_mcp.emptiness import SINGLE_RECORD, read_shape
-    from bing_webmaster_mcp.ops import sites
+    from bing_webmaster_ai_cli_mcp.emptiness import SINGLE_RECORD, read_shape
+    from bing_webmaster_ai_cli_mcp.ops import sites
 
     assert read_shape(sites.show_site) == SINGLE_RECORD
