@@ -73,9 +73,16 @@ recovery is audited.
 
 ## Install
 
+The package is not on PyPI yet, so install it straight from this repository (Python 3.12+):
+
 ```console
-python -m pip install bing-webmaster-ai-cli-mcp
+python -m pip install "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git"
 ```
+
+That puts three commands on your `PATH`: `bing-wm` (the CLI), `bing-webmaster-ai-cli-mcp`
+(the stdio MCP server) and `bing-webmaster-ai-cli-mcp-http`. With
+[uv](https://docs.astral.sh/uv/) you can skip the install and let the MCP client start the
+server on demand — see the configs below.
 
 The supported matrix is Python 3.12, 3.13, and 3.14. Development and images use the
 exact versions in `constraints.txt`; published dependencies remain compatible floors.
@@ -94,7 +101,42 @@ all settings.
 ## MCP client configuration
 
 Run the stdio server with `bing-webmaster-ai-cli-mcp`. Point an MCP client at that executable
-and pass `BING_WM_API_KEY` through its protected environment configuration. The server
+and pass `BING_WM_API_KEY` through its protected environment configuration.
+
+Claude Code:
+
+```console
+claude mcp add bing-webmaster --scope user \
+  --env BING_WM_API_KEY=your-api-key --env BING_WM_ALLOW_WRITES=false \
+  -- uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp
+```
+
+Claude Desktop (`claude_desktop_config.json`), Cursor (`~/.cursor/mcp.json` or
+`.cursor/mcp.json`) and other clients that take an `mcpServers` block:
+
+```json
+{
+  "mcpServers": {
+    "bing-webmaster": {
+      "command": "uvx",
+      "args": [
+        "--from", "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
+        "bing-webmaster-ai-cli-mcp"
+      ],
+      "env": {
+        "BING_WM_API_KEY": "your-api-key",
+        "BING_WM_ALLOW_WRITES": "false"
+      }
+    }
+  }
+}
+```
+
+Installed with `pip` instead of uv? Use `"command": "bing-webmaster-ai-cli-mcp"` and drop
+`args` (give the absolute path if the client does not see your `PATH`). Remove
+`BING_WM_ALLOW_WRITES` to get direct writes — see
+[Choosing a write path](#choosing-a-write-path). Keep the key in a user-level config, not in a
+project file you commit. The server
 exposes 34 Bing read tools, one local read-only tool (`bing_indexnow_key_plan`), plan
 inspection, and one write tool per supported operation —
 direct `bing_<operation>` tools by default, or `bing_plan_<operation>` tools when
