@@ -44,9 +44,8 @@ owner's external accounts and are intentionally not automated from a developer m
   and `llms.txt`.
 - [ ] Review the GitHub topics listed in the implementation plan.
 - [ ] Upload the prepared `docs/assets/social-preview.png` under Settings → General →
-  Social preview.
-  ⚠️ The image still reads `bing-webmaster-mcp` (drawn before the 2026-09-18 rename);
-  regenerate it with the new name before uploading.
+  Social preview. The image carries the new name `bing-webmaster-ai-cli-mcp`
+  (redrawn 2026-10-09).
 - [ ] Publish the server to `registry.modelcontextprotocol.io` with `mcp-publisher`
   after the PyPI release, using the same verified GitHub identity.
 - [ ] Submit the released server to the community catalogues listed in the launch plan.
