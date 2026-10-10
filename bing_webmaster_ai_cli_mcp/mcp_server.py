@@ -448,8 +448,9 @@ _READ_COPY: dict[str, tuple[str, str, str]] = {
         "Do not use this to list every sitemap; call bing_sitemaps.",
     ),
     "bing_blocked_urls": (
-        "List the URLs blocked from Bing search results for one site.",
-        "Use when the user asks which URLs are hidden from Bing.",
+        "List the URL block requests Bing holds for one site: full removals from search "
+        "results and cache-only removals.",
+        "Use when the user asks which URLs are hidden from Bing or had their cached copy removed.",
         "Do not use this for page-preview blocks; call bing_page_preview_blocks. "
         "Do not use this for deep-link blocks; call bing_deep_link_blocks.",
     ),
@@ -489,18 +490,19 @@ _READ_COPY: dict[str, tuple[str, str, str]] = {
         "Do not use this for ordinary inbound links; call bing_url_links.",
     ),
     "bing_keyword": (
-        "Read Bing keyword research for one query, country and language over a date range. "
-        "This call is not tied to a site.",
-        "Use when the user asks how a keyword trended, independent of any property.",
-        "Do not use this for a summary without dates; call bing_keyword_stats. "
+        "Read Bing keyword impressions for one query, country and language, totalled over "
+        "a date range. This call is not tied to a site.",
+        "Use when the user asks how much search demand a keyword had in a given period, "
+        "independent of any property.",
+        "Do not use this for the keyword's history over time; call bing_keyword_stats. "
         "Do not use this for a site's own query traffic; call bing_traffic_query.",
     ),
     "bing_keyword_stats": (
-        "Read Bing's summary statistics for one keyword in a country and language. "
+        "Read Bing's historical statistics for one keyword in a country and language. "
         "This call is not tied to a site.",
-        "Use when the user wants a keyword summary rather than a dated series.",
+        "Use when the user asks how a keyword trended over time.",
         "Do not use this for related queries; call bing_related_keywords. "
-        "Do not use this for the dated series; call bing_keyword.",
+        "Do not use this for impressions totalled over a chosen period; call bing_keyword.",
     ),
     "bing_related_keywords": (
         "List keywords Bing relates to one query in a country and language over a date range. "
@@ -533,16 +535,19 @@ READ_SPECS: dict[str, ToolSpec] = {
 # {prefix} is bing_ or bing_plan_ so the neighbor is a tool in the same mode.
 _WRITE_COPY: dict[str, tuple[str, str, str, str, str]] = {
     "add_blocked_url": (
-        "Block one URL so Bing stops showing it in search results.",
-        "Record a plan to block one URL so Bing stops showing it in search results.",
+        "Block one URL in Bing. RequestType 1 (FullRemoval) hides it from search results; "
+        "RequestType 0 (CacheOnly) only removes Bing's cached copy and leaves it in results.",
+        "Record a plan to block one URL in Bing. RequestType 1 (FullRemoval) would hide it "
+        "from search results; RequestType 0 (CacheOnly) only removes Bing's cached copy.",
         "Use when the user asks to hide or block a URL in Bing now.",
         "Use when the user asks to hide a URL and a person must review the block first.",
         "Do not use this to list current blocks; call bing_blocked_urls. "
         "Do not use this to lift a block; call {prefix}remove_blocked_url.",
     ),
     "remove_blocked_url": (
-        "Remove one URL block so Bing may show that URL again.",
-        "Record a plan to remove one URL block so Bing may show that URL again.",
+        "Remove one URL block request so Bing may show that URL or its cached copy again.",
+        "Record a plan to remove one URL block request so Bing may show that URL or its "
+        "cached copy again.",
         "Use when the user asks to unblock a URL now.",
         "Use when the user asks to unblock a URL and a person must review it first.",
         "Do not use this to add a block; call {prefix}add_blocked_url. "

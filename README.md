@@ -180,7 +180,9 @@ One click, without editing JSON: download the `.mcpb` from
 https://github.com/stufently/bing-webmaster-ai-cli-mcp/releases/latest
 and open it. Claude Desktop installs the extension and asks for the API key.
 Direct writes stay off unless you turn Allow direct writes on. While they are off
-the extension only records plans, and you apply each one with `bing-wm plan apply`.
+the extension only records plans. Applying one needs the `bing-wm` CLI, which the
+extension does not put on your `PATH`: install it with pip as in [Install](#install),
+export the same key as `BING_WM_API_KEY` in that shell, then run `bing-wm plan apply`.
 
 ### Cursor
 

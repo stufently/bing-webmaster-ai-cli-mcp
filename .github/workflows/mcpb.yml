@@ -16,6 +16,18 @@ jobs:
     steps:
       # actions/checkout v7.0.1, the same pin as ci.yml and release.yml.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Check tag matches package version
+        run: |
+          python3 - <<'PY'
+          import os
+          import tomllib
+
+          with open("pyproject.toml", "rb") as source:
+              version = tomllib.load(source)["project"]["version"]
+          tag = os.environ["GITHUB_REF_NAME"]
+          if tag != f"v{version}":
+              raise SystemExit(f"tag {tag!r} does not match package version {version!r}")
+          PY
       - name: Build the Desktop Extension
         run: bash scripts/build-mcpb.sh
       - name: Attach the bundle to the GitHub release

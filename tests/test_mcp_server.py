@@ -419,6 +419,18 @@ def test_plan_and_direct_descriptions_lead_with_their_own_effect() -> None:
         assert "a person must" not in direct, operation
 
 
+def test_keyword_and_block_descriptions_match_the_bing_api() -> None:
+    """GetKeyword totals a period, GetKeywordStats is the history; CacheOnly keeps the URL."""
+    specs = mcp_server.TOOL_SPECS
+    assert "totalled over" in specs["bing_keyword"].description
+    assert "historical" in specs["bing_keyword_stats"].description
+    assert "trended over time" in specs["bing_keyword_stats"].description
+    assert "trended" not in specs["bing_keyword"].description
+    for name in ("bing_add_blocked_url", "bing_plan_add_blocked_url"):
+        assert "CacheOnly" in specs[name].description, name
+        assert "FullRemoval" in specs[name].description, name
+
+
 ROLE_ARGS = {
     "site_url": "https://a.example",
     "delegated_url": "https://a.example",
