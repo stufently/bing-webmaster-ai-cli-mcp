@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: "T"
     given-names: "Roman"
-version: 0.1.0
-date-released: 2026-08-25
+version: 0.1.1
+date-released: 2026-10-10
 license: MIT
 repository-code: "https://github.com/stufently/bing-webmaster-ai-cli-mcp"
 url: "https://github.com/stufently/bing-webmaster-ai-cli-mcp"

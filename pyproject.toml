@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bing-webmaster-ai-cli-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "bing-webmaster-ai-cli-mcp gives an AI agent read access to what Bing knows about your sites — traffic, indexing, crawl issues, inbound links, keywords — and a write path you choose: direct by default, or reviewed plan-and-apply."
 readme = "README.md"
 license = "MIT"
