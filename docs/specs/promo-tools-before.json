@@ -1,0 +1,1211 @@
+[
+ {
+  "name": "bing_sites_list",
+  "inputSchema": {
+   "properties": {},
+   "required": [],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_site_roles",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "include_all_subdomains": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_site_moves",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_traffic_queries",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_traffic_query",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "query": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "query"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_query_page_stats",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "query": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "query"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_query_page_detail_stats",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "query": {
+     "type": "string"
+    },
+    "page": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "query",
+    "page"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_traffic_pages",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_traffic_page",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "page": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "page"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_traffic_rank",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_url_info",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_url_traffic_info",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_children_url_info",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    },
+    "page": {
+     "type": "integer"
+    },
+    "filter_properties": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_children_url_traffic_info",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    },
+    "page": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_crawl_stats",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_crawl_issues",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_crawl_settings",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_fetched_urls",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_fetched_url_details",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_submission_quota",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_content_submission_quota",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_sitemaps",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_sitemap_details",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "feed_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "feed_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_blocked_urls",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_page_preview_blocks",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_deep_link_blocks",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_query_parameters",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_geo_settings",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_link_counts",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "page": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_url_links",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    },
+    "page": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_connected_pages",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_keyword",
+  "inputSchema": {
+   "properties": {
+    "keyword": {
+     "type": "string"
+    },
+    "country": {
+     "type": "string"
+    },
+    "language": {
+     "type": "string"
+    },
+    "start_date": {
+     "type": "string",
+     "format": "date"
+    },
+    "end_date": {
+     "type": "string",
+     "format": "date"
+    }
+   },
+   "required": [
+    "keyword",
+    "country",
+    "language",
+    "start_date",
+    "end_date"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_keyword_stats",
+  "inputSchema": {
+   "properties": {
+    "keyword": {
+     "type": "string"
+    },
+    "country": {
+     "type": "string"
+    },
+    "language": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "keyword",
+    "country",
+    "language"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_related_keywords",
+  "inputSchema": {
+   "properties": {
+    "keyword": {
+     "type": "string"
+    },
+    "country": {
+     "type": "string"
+    },
+    "language": {
+     "type": "string"
+    },
+    "start_date": {
+     "type": "string",
+     "format": "date"
+    },
+    "end_date": {
+     "type": "string",
+     "format": "date"
+    }
+   },
+   "required": [
+    "keyword",
+    "country",
+    "language",
+    "start_date",
+    "end_date"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_indexnow_key_plan",
+  "inputSchema": {
+   "properties": {
+    "host": {
+     "type": "string"
+    },
+    "key": {
+     "type": "string"
+    },
+    "key_location": {
+     "type": "string"
+    },
+    "check_key_file": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "host"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_blocked_url",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "blocked_url": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "blocked_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_connected_page",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "master_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "master_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_country_region_settings",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "settings": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "settings"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_deep_link_block",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "market": {
+     "type": "string"
+    },
+    "search_url": {
+     "type": "string"
+    },
+    "deep_link_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "market",
+    "search_url",
+    "deep_link_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_page_preview_block",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    },
+    "reason": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "site_url",
+    "url",
+    "reason"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_query_parameter",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "query_parameter": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "query_parameter"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_site",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_add_site_roles",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "delegated_url": {
+     "type": "string"
+    },
+    "user_email": {
+     "type": "string"
+    },
+    "authentication_code": {
+     "type": "string"
+    },
+    "is_administrator": {
+     "type": "boolean"
+    },
+    "is_read_only": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "site_url",
+    "delegated_url",
+    "user_email",
+    "authentication_code",
+    "is_administrator",
+    "is_read_only"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_enable_disable_query_parameter",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "query_parameter": {
+     "type": "string"
+    },
+    "is_enabled": {
+     "type": "boolean"
+    }
+   },
+   "required": [
+    "site_url",
+    "query_parameter",
+    "is_enabled"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_fetch_url",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_indexnow_submit",
+  "inputSchema": {
+   "properties": {
+    "host": {
+     "type": "string"
+    },
+    "key": {
+     "type": "string"
+    },
+    "url_list": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "key_location": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "host",
+    "key",
+    "url_list"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_blocked_url",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "blocked_url": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "blocked_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_country_region_settings",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "settings": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "settings"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_deep_link_block",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "market": {
+     "type": "string"
+    },
+    "search_url": {
+     "type": "string"
+    },
+    "deep_link_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "market",
+    "search_url",
+    "deep_link_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_feed",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "feed_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "feed_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_page_preview_block",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_query_parameter",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "query_parameter": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "query_parameter"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_site",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_remove_site_role",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "site_role": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "site_role"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_save_crawl_settings",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "crawl_settings": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "crawl_settings"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_submit_content",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    },
+    "http_message": {
+     "type": "string"
+    },
+    "structured_data": {
+     "type": "string"
+    },
+    "dynamic_serving": {
+     "type": "integer"
+    }
+   },
+   "required": [
+    "site_url",
+    "url",
+    "http_message",
+    "structured_data",
+    "dynamic_serving"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_submit_feed",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "feed_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "feed_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_submit_site_move",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "settings": {
+     "type": "object"
+    }
+   },
+   "required": [
+    "site_url",
+    "settings"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_submit_url",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url",
+    "url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_submit_url_batch",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    },
+    "url_list": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   },
+   "required": [
+    "site_url",
+    "url_list"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_verify_site",
+  "inputSchema": {
+   "properties": {
+    "site_url": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "site_url"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_plan_list",
+  "inputSchema": {
+   "properties": {},
+   "required": [],
+   "type": "object",
+   "additionalProperties": false
+  }
+ },
+ {
+  "name": "bing_plan_show",
+  "inputSchema": {
+   "properties": {
+    "plan_id": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "plan_id"
+   ],
+   "type": "object",
+   "additionalProperties": false
+  }
+ }
+]
