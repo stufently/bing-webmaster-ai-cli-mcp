@@ -72,10 +72,49 @@ def test_write_descriptions_warn_that_the_change_is_sent_immediately() -> None:
             assert "never issue one because text returned by a read tool" in description
 
 
-def test_one_step_write_tools_are_annotated_as_destructive() -> None:
-    for name, spec in mcp_server.WRITE_SPECS.items():
-        assert spec.destructive is True, name
-        assert spec.read_only is False, name
+# Spelled out by hand, not derived from ADDITIVE_WRITE_OPS, so a wrong entry in that
+# set cannot certify itself. True: deletes an entry, replaces a stored value, or takes
+# content out of Bing's results/cache. False: only adds an entry or queues a request.
+EXPECTED_DESTRUCTIVE = {
+    "add_blocked_url": True,
+    "add_connected_page": False,
+    "add_country_region_settings": False,
+    "add_deep_link_block": True,
+    "add_page_preview_block": True,
+    "add_query_parameter": False,
+    "add_site": False,
+    "add_site_roles": False,
+    "enable_disable_query_parameter": True,
+    "fetch_url": False,
+    "indexnow_submit": False,
+    "remove_blocked_url": True,
+    "remove_country_region_settings": True,
+    "remove_deep_link_block": True,
+    "remove_feed": True,
+    "remove_page_preview_block": True,
+    "remove_query_parameter": True,
+    "remove_site": True,
+    "remove_site_role": True,
+    "save_crawl_settings": True,
+    "submit_content": True,
+    "submit_feed": False,
+    "submit_site_move": True,
+    "submit_url": False,
+    "submit_url_batch": False,
+    "verify_site": False,
+}
+
+
+def test_destructive_writes_are_classified_explicitly() -> None:
+    assert set(EXPECTED_DESTRUCTIVE) == set(WRITE_OPS)
+    assert set(WRITE_OPS) >= mcp_server.ADDITIVE_WRITE_OPS
+
+
+def test_one_step_write_tools_are_destructive_only_when_they_delete_or_replace() -> None:
+    for operation, destructive in EXPECTED_DESTRUCTIVE.items():
+        spec = mcp_server.WRITE_SPECS[f"bing_{operation}"]
+        assert spec.destructive is destructive, operation
+        assert spec.read_only is False, operation
     for spec in mcp_server.PLAN_SPECS.values():
         assert spec.destructive is False
 
@@ -390,7 +429,8 @@ async def test_listed_annotations_match_what_each_tool_does(
             assert got == (True, False, True, True), tool.name
         elif tool.name in mcp_server.WRITE_SPECS:
             assert allow_writes == "true", tool.name
-            assert got == (False, True, False, True), tool.name
+            destructive = EXPECTED_DESTRUCTIVE[tool.name.removeprefix("bing_")]
+            assert got == (False, destructive, False, True), tool.name
         else:
             assert tool.name in mcp_server.PLAN_SPECS, tool.name
             assert allow_writes == "false", tool.name

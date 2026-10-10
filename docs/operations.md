@@ -208,19 +208,18 @@ answer — a `POLICY_DENIED` for a disabled write — rather than "unknown tool"
 ## MCP one-step write tools (`BING_WM_ALLOW_WRITES=true`, the default)
 
 Each sends the change to Bing immediately and returns the applied plan ID, the operation
-and Bing's result. They are annotated `readOnlyHint: false`, `destructiveHint: true`.
+and Bing's result. All are annotated `readOnlyHint: false`, `idempotentHint: false` and
+`openWorldHint: true`. `destructiveHint` follows the MCP meaning — whether the call may
+delete or overwrite something that already exists — so a client can ask before the
+destructive ones and not before the additive ones.
 
-- `bing_add_blocked_url`
-- `bing_add_connected_page`
-- `bing_add_country_region_settings`
-- `bing_add_deep_link_block`
-- `bing_add_page_preview_block`
-- `bing_add_query_parameter`
-- `bing_add_site`
-- `bing_add_site_roles`
-- `bing_enable_disable_query_parameter`
-- `bing_fetch_url`
-- `bing_indexnow_submit`
+`destructiveHint: true` — the call deletes an entry, replaces a stored value, or takes
+content Bing already shows out of its results or cache:
+
+- `bing_add_blocked_url` — removes the URL (or its cached copy) from Bing
+- `bing_add_deep_link_block` — hides a deep link Bing already shows
+- `bing_add_page_preview_block` — hides the preview Bing already shows
+- `bing_enable_disable_query_parameter` — overwrites the parameter's enabled flag
 - `bing_remove_blocked_url`
 - `bing_remove_country_region_settings`
 - `bing_remove_deep_link_block`
@@ -229,13 +228,30 @@ and Bing's result. They are annotated `readOnlyHint: false`, `destructiveHint: t
 - `bing_remove_query_parameter`
 - `bing_remove_site`
 - `bing_remove_site_role`
-- `bing_save_crawl_settings`
-- `bing_submit_content`
+- `bing_save_crawl_settings` — replaces the site's crawl settings as a whole
+- `bing_submit_content` — the caller writes the HTTP response itself; a 404, 410 or
+  `noindex` message tells Bing to drop a page it already indexes
+- `bing_submit_site_move` — tells Bing the source address now lives at the target
+
+`destructiveHint: false` — the call only adds an entry or queues a request, and leaves
+everything already configured in place:
+
+- `bing_add_connected_page`
+- `bing_add_country_region_settings`
+- `bing_add_query_parameter`
+- `bing_add_site`
+- `bing_add_site_roles` — additive, but it grants access; the client still sees a write
+- `bing_fetch_url`
+- `bing_indexnow_submit`
 - `bing_submit_feed`
-- `bing_submit_site_move`
 - `bing_submit_url`
 - `bing_submit_url_batch`
 - `bing_verify_site`
+
+Non-destructive is not harmless: every one of these is still a write, is still not
+idempotent, and still spends quota where Bing counts it. The classification lives in
+`ADDITIVE_WRITE_OPS` in `mcp_server.py`; a new write operation is destructive until it is
+listed there, and the test that pins every operation's value fails until it is classified.
 
 ## MCP planning tools (`BING_WM_ALLOW_WRITES=false`)
 

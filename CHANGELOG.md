@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+- Mark additive one-step writes `destructiveHint: false`. `submit_url`,
+  `submit_url_batch`, `submit_feed`, `fetch_url`, `indexnow_submit`,
+  `add_site`, `verify_site`, `add_site_roles`, `add_connected_page`,
+  `add_query_parameter` and `add_country_region_settings` only add an entry or queue a
+  request, which MCP calls non-destructive. Writes that delete, replace a stored value
+  or take content out of Bing's results stay `destructiveHint: true`: every `remove_*`,
+  `save_crawl_settings`, `enable_disable_query_parameter`, `submit_site_move`,
+  `submit_content` (its caller-supplied HTTP message may be a 404, 410 or noindex) and the
+  three blocks (`add_blocked_url`, `add_deep_link_block`, `add_page_preview_block`).
+  A new write op defaults to destructive until it is listed in `ADDITIVE_WRITE_OPS`.
+  This replaces the 0.1.1 rule that every one-step write is destructive.
+
 ## 0.1.1 — 2026-10-10
 
 - Gate the PyPI job in `release.yml` on the repository variable `PYPI_PUBLISH`.

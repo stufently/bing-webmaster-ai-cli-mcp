@@ -784,13 +784,37 @@ PLAN_SPECS: dict[str, ToolSpec] = {
     for operation in WRITE_OPS
 }
 
+# MCP's destructiveHint means "may delete or overwrite existing state"; a write that
+# only adds an entry or queues a request is additive and says so. The writes below only
+# add: a site, a role, a rule, a parameter, a sitemap, a connected page, or a crawl or
+# index request. Every other write deletes an entry, replaces a stored value, or takes
+# content Bing already shows out of its results or cache (a block, a site move that
+# folds the source into the target, a submit_content whose caller-supplied HTTP message
+# is a 404, 410 or noindex response), and stays destructive. The default is the safe
+# side: a new write op is destructive until it is deliberately listed here.
+ADDITIVE_WRITE_OPS: frozenset[str] = frozenset(
+    {
+        "add_connected_page",
+        "add_country_region_settings",
+        "add_query_parameter",
+        "add_site",
+        "add_site_roles",
+        "fetch_url",
+        "indexnow_submit",
+        "submit_feed",
+        "submit_url",
+        "submit_url_batch",
+        "verify_site",
+    }
+)
+
 WRITE_SPECS: dict[str, ToolSpec] = {
     f"bing_{operation}": ToolSpec(
         f"bing_{operation}",
         _write_description(operation, plan=False),
         _write_schema(operation),
         False,
-        destructive=True,
+        destructive=operation not in ADDITIVE_WRITE_OPS,
     )
     for operation in WRITE_OPS
 }
