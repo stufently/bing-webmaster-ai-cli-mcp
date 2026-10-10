@@ -426,6 +426,7 @@ def test_keyword_and_block_descriptions_match_the_bing_api() -> None:
     assert "historical" in specs["bing_keyword_stats"].description
     assert "trended over time" in specs["bing_keyword_stats"].description
     assert "trended" not in specs["bing_keyword"].description
+    assert "history; call bing_keyword_stats" in specs["bing_related_keywords"].description
     for name in ("bing_add_blocked_url", "bing_plan_add_blocked_url"):
         assert "CacheOnly" in specs[name].description, name
         assert "FullRemoval" in specs[name].description, name

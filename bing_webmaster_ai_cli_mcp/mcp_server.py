@@ -508,7 +508,8 @@ _READ_COPY: dict[str, tuple[str, str, str]] = {
         "List keywords Bing relates to one query in a country and language over a date range. "
         "This call is not tied to a site.",
         "Use when the user asks which other queries sit next to a keyword.",
-        "Do not use this for the keyword's own series; call bing_keyword.",
+        "Do not use this for the keyword's own history; call bing_keyword_stats. "
+        "Do not use this for its impressions over a chosen period; call bing_keyword.",
     ),
 }
 
