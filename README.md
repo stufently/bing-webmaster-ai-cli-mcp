@@ -84,6 +84,8 @@ and pass it as `BING_WM_API_KEY`. If you are not sure about writes, also set
 
 The package is not on PyPI yet. Until it is, `uvx bing-webmaster-ai-cli-mcp` (a PyPI
 name, with no `--from`) does nothing useful. The command above is the install path.
+PyPI publishing is switched off in `release.yml`: it is enabled by the repository
+variable `PYPI_PUBLISH=true` once the PyPI Trusted Publisher is set up.
 
 A checkout still installs with pip (Python 3.12+) and puts `bing-wm`,
 `bing-webmaster-ai-cli-mcp` and `bing-webmaster-ai-cli-mcp-http` on `PATH`:

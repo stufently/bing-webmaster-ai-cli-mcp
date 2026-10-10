@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.1.1 — 2026-10-10
+
+- Gate the PyPI job in `release.yml` on the repository variable `PYPI_PUBLISH`.
+  It is skipped unless the variable is `true`, so a tag still produces the GitHub
+  Release with the `.mcpb` but publishes nothing to PyPI until the Trusted
+  Publisher is set up.
 - Say, on every MCP tool, what it does and when to call it. Each description now
   opens with the action and a `Use when` sentence, and names the neighboring tool
   when two calls are easy to mix up. Read tools stay `readOnlyHint: true` and

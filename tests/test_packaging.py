@@ -40,7 +40,15 @@ def test_release_uses_trusted_publishing() -> None:
     text = (ROOT / ".github" / "workflows" / "release.yml").read_text()
     assert "id-token: write" in text
     assert "environment: pypi" in text
-    assert "PYPI" not in text.replace("pypi", "")
+    # Trusted Publishing only: no PyPI token or password in secrets.
+    assert "secrets.PYPI" not in text
+    assert "password:" not in text
+
+
+def test_pypi_publish_is_gated_on_repository_variable() -> None:
+    text = (ROOT / ".github" / "workflows" / "release.yml").read_text()
+    job = text[text.index("  publish:") :]
+    assert job.index("if: vars.PYPI_PUBLISH == 'true'") < job.index("steps:")
 
 
 def test_release_runs_quality_gates_before_publishing() -> None:

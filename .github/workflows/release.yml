@@ -13,6 +13,10 @@ env:
 
 jobs:
   publish:
+    # Off until the PyPI Trusted Publisher is configured: set the repository
+    # variable PYPI_PUBLISH=true to enable. The GitHub Release and the .mcpb
+    # come from mcpb.yml and do not depend on this job.
+    if: vars.PYPI_PUBLISH == 'true'
     runs-on: ubuntu-latest
     environment: pypi
     permissions:

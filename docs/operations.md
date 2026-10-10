@@ -340,3 +340,12 @@ Site-scoped and IndexNow URL paths reject literal or repeatedly percent-encoded 
 segments before ownership and denylist comparisons. IndexNow key-file preflight does not
 follow redirects, accepts only the submitted multi-label DNS host on the default HTTPS port,
 and requires the response body to contain exactly the key.
+
+## Releases
+
+A `vX.Y.Z` tag must match the version in `pyproject.toml`. `mcpb.yml` builds the
+Desktop Extension and attaches it to the GitHub Release, creating the release if
+needed. The PyPI job in `release.yml` is skipped unless the repository variable
+`PYPI_PUBLISH` is `true`. PyPI publishing is enabled by setting `PYPI_PUBLISH=true`
+after the PyPI Trusted Publisher is configured for this repository and the `pypi`
+environment.
