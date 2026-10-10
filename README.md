@@ -73,46 +73,55 @@ recovery is audited.
 
 ## Install
 
-The package is not on PyPI yet, so install it straight from this repository (Python 3.12+):
+```console
+uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp
+```
+
+That one command starts the stdio MCP server. Every client block below runs the same
+`uvx` command. Create an API key in Bing Webmaster Tools under Settings → API Access
+and pass it as `BING_WM_API_KEY`. If you are not sure about writes, also set
+`BING_WM_ALLOW_WRITES=false` — see [Choosing a write path](#choosing-a-write-path).
+
+The package is not on PyPI yet. Until it is, `uvx bing-webmaster-ai-cli-mcp` (a PyPI
+name, with no `--from`) does nothing useful. The command above is the install path.
+
+A checkout still installs with pip (Python 3.12+) and puts `bing-wm`,
+`bing-webmaster-ai-cli-mcp` and `bing-webmaster-ai-cli-mcp-http` on `PATH`:
 
 ```console
 python -m pip install "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git"
-```
-
-That puts three commands on your `PATH`: `bing-wm` (the CLI), `bing-webmaster-ai-cli-mcp`
-(the stdio MCP server) and `bing-webmaster-ai-cli-mcp-http`. With
-[uv](https://docs.astral.sh/uv/) you can skip the install and let the MCP client start the
-server on demand — see the configs below.
-
-The supported matrix is Python 3.12, 3.13, and 3.14. Development and images use the
-exact versions in `constraints.txt`; published dependencies remain compatible floors.
-
-Create an API key in Bing Webmaster Tools under Settings → API Access and provide it
-through the environment:
-
-```console
 export BING_WM_API_KEY='…'
 bing-wm sites list
 ```
 
+The supported matrix is Python 3.12, 3.13, and 3.14. Development and images use the
+exact versions in `constraints.txt`; published dependencies remain compatible floors.
 Never put a real key in the repository. See [configuration](docs/configuration.md) for
 all settings.
 
-## MCP client configuration
+## Example prompts
 
-Run the stdio server with `bing-webmaster-ai-cli-mcp`. Point an MCP client at that executable
-and pass `BING_WM_API_KEY` through its protected environment configuration.
+- Why did my site lose clicks last week?
+- Which pages is Bing failing to crawl, and why?
+- Is this URL indexed, and when did Bing last fetch it?
+- Submit this new page to Bing, but let me review the change first.
 
-Claude Code:
+## Add the MCP server to your AI client
 
-```console
-claude mcp add bing-webmaster --scope user \
-  --env BING_WM_API_KEY=your-api-key --env BING_WM_ALLOW_WRITES=false \
-  -- uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp
-```
+Every JSON block below runs the same `uvx` command as [Install](#install).
+`BING_WM_ALLOW_WRITES` is `false` here, so writes are planned and you apply them.
+Remove that variable for direct writes — see
+[Choosing a write path](#choosing-a-write-path). Keep the key in a user-level config,
+not in a project file you commit. The server exposes 34 Bing read tools, one local
+read-only tool (`bing_indexnow_key_plan`), plan inspection, and one write tool per
+supported operation — direct `bing_<operation>` tools by default, or
+`bing_plan_<operation>` tools when `BING_WM_ALLOW_WRITES=false`. It exposes no plan
+application or rejection tool. Restart the server after changing the setting so the
+client refreshes its tool list.
 
-Claude Desktop (`claude_desktop_config.json`), Cursor (`~/.cursor/mcp.json` or
-`.cursor/mcp.json`) and other clients that take an `mcpServers` block:
+### Claude Code
+
+Project file: `.mcp.json` in the project root.
 
 ```json
 {
@@ -120,7 +129,8 @@ Claude Desktop (`claude_desktop_config.json`), Cursor (`~/.cursor/mcp.json` or
     "bing-webmaster": {
       "command": "uvx",
       "args": [
-        "--from", "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
+        "--from",
+        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
         "bing-webmaster-ai-cli-mcp"
       ],
       "env": {
@@ -132,18 +142,120 @@ Claude Desktop (`claude_desktop_config.json`), Cursor (`~/.cursor/mcp.json` or
 }
 ```
 
-Installed with `pip` instead of uv? Use `"command": "bing-webmaster-ai-cli-mcp"` and drop
-`args` (give the absolute path if the client does not see your `PATH`). Remove
-`BING_WM_ALLOW_WRITES` to get direct writes — see
-[Choosing a write path](#choosing-a-write-path). Keep the key in a user-level config, not in a
-project file you commit. The server
-exposes 34 Bing read tools, one local read-only tool (`bing_indexnow_key_plan`), plan
-inspection, and one write tool per supported operation —
-direct `bing_<operation>` tools by default, or `bing_plan_<operation>` tools when
-`BING_WM_ALLOW_WRITES=false`. It exposes no plan application or rejection tool. Restart
-the server after changing the setting so the client refreshes its tool list.
+Or from the terminal:
 
-An optional Streamable HTTP entry point is also available:
+```console
+claude mcp add bing-webmaster --scope user \
+  --env BING_WM_API_KEY=your-api-key --env BING_WM_ALLOW_WRITES=false \
+  -- uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp
+```
+
+### Claude Desktop
+
+File: `claude_desktop_config.json` — macOS
+`~/Library/Application Support/Claude/claude_desktop_config.json`, Windows
+`%APPDATA%\Claude\claude_desktop_config.json`, Linux
+`~/.config/Claude/claude_desktop_config.json`.
+
+```json
+{
+  "mcpServers": {
+    "bing-webmaster": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
+        "bing-webmaster-ai-cli-mcp"
+      ],
+      "env": {
+        "BING_WM_API_KEY": "your-api-key",
+        "BING_WM_ALLOW_WRITES": "false"
+      }
+    }
+  }
+}
+```
+
+One click, without editing JSON: download the `.mcpb` from
+https://github.com/stufently/bing-webmaster-ai-cli-mcp/releases/latest
+and open it. Claude Desktop installs the extension and asks for the API key.
+Direct writes stay off unless you turn Allow direct writes on. While they are off
+the extension only records plans, and you apply each one with `bing-wm plan apply`.
+
+### Cursor
+
+File: `~/.cursor/mcp.json` (every project) or `.cursor/mcp.json` (this project).
+
+```json
+{
+  "mcpServers": {
+    "bing-webmaster": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
+        "bing-webmaster-ai-cli-mcp"
+      ],
+      "env": {
+        "BING_WM_API_KEY": "your-api-key",
+        "BING_WM_ALLOW_WRITES": "false"
+      }
+    }
+  }
+}
+```
+
+### Windsurf
+
+File: `mcp_config.json` — macOS and Linux `~/.config/devin/mcp_config.json`
+(or `$XDG_CONFIG_HOME/devin/mcp_config.json`), Windows
+`%APPDATA%\devin\mcp_config.json`. Older builds read
+`~/.codeium/windsurf/mcp_config.json`.
+
+```json
+{
+  "mcpServers": {
+    "bing-webmaster": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
+        "bing-webmaster-ai-cli-mcp"
+      ],
+      "env": {
+        "BING_WM_API_KEY": "your-api-key",
+        "BING_WM_ALLOW_WRITES": "false"
+      }
+    }
+  }
+}
+```
+
+### Zed
+
+File: `settings.json` — Linux and macOS `~/.config/zed/settings.json`.
+
+```json
+{
+  "context_servers": {
+    "bing-webmaster": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
+        "bing-webmaster-ai-cli-mcp"
+      ],
+      "env": {
+        "BING_WM_API_KEY": "your-api-key",
+        "BING_WM_ALLOW_WRITES": "false"
+      }
+    }
+  }
+}
+```
+
+An optional Streamable HTTP entry point is also available once the package is on
+`PATH` (the pip install above; `uvx` does not install a lasting command):
 
 ```console
 export BING_WM_HTTP_BEARER_TOKEN='a-random-token-of-at-least-32-characters'

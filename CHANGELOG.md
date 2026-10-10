@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+- Say, on every MCP tool, what it does and when to call it. Each description now
+  opens with the action and a `Use when` sentence, and names the neighboring tool
+  when two calls are easy to mix up. Read tools stay `readOnlyHint: true` and
+  `destructiveHint: false`. One-step writes stay `readOnlyHint: false` and
+  `destructiveHint: true`. Plan tools stay non-destructive: they still send nothing.
+- Document one `uvx` install command and a JSON block for Claude Code, Claude
+  Desktop, Cursor, Windsurf and Zed. Claude Desktop can also install the `.mcpb`
+  from the GitHub release.
+- Ship a Desktop Extension manifest (`mcpb/manifest.json`, `server.type: uv`) and
+  `scripts/build-mcpb.sh`, the only build entry point. A tag workflow
+  (`.github/workflows/mcpb.yml`) builds that bundle and uploads it to the release.
+  Nothing new is published to PyPI, GHCR or an MCP registry.
+
 - Rename the project to `bing-webmaster-ai-cli-mcp`, matching `telegram-ai-cli-mcp` and
   `zabbix-ai-cli-mcp`: it ships a real CLI as well as an MCP server, and the old name
   only said the second. The GitHub repository, the distribution, the import package

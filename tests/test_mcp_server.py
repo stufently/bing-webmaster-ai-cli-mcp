@@ -334,6 +334,39 @@ def test_the_url_info_descriptions_explain_a_zero_http_status() -> None:
         assert "HttpStatus is 0" in description
 
 
+def test_every_tool_description_says_when_to_call_it() -> None:
+    """A description is the prompt the model reads before it picks a tool."""
+    for spec in mcp_server.TOOL_SPECS.values():
+        words = spec.description.split()
+        assert len(words) >= 25, spec.name
+        assert "Use when " in spec.description, spec.name
+        lead, marker, _rest = spec.description.partition(" Use when ")
+        assert lead.endswith("."), spec.name
+        assert marker == " Use when ", spec.name
+
+
+def test_close_tools_name_the_neighbor_to_call_instead() -> None:
+    pairs = (
+        ("bing_traffic_queries", "bing_traffic_query"),
+        ("bing_traffic_query", "bing_traffic_queries"),
+        ("bing_url_info", "bing_url_traffic_info"),
+        ("bing_url_traffic_info", "bing_url_info"),
+        ("bing_crawl_issues", "bing_crawl_stats"),
+        ("bing_crawl_stats", "bing_crawl_issues"),
+        ("bing_submit_url", "bing_submit_url_batch"),
+        ("bing_submit_url_batch", "bing_submit_url"),
+        ("bing_plan_submit_url", "bing_plan_submit_url_batch"),
+        ("bing_plan_submit_url_batch", "bing_plan_submit_url"),
+        ("bing_blocked_urls", "bing_page_preview_blocks"),
+        ("bing_keyword", "bing_keyword_stats"),
+        ("bing_keyword_stats", "bing_related_keywords"),
+        ("bing_indexnow_key_plan", "bing_indexnow_submit"),
+        ("bing_indexnow_key_plan", "bing_plan_indexnow_submit"),
+    )
+    for name, neighbor in pairs:
+        assert neighbor in mcp_server.TOOL_SPECS[name].description, name
+
+
 ROLE_ARGS = {
     "site_url": "https://a.example",
     "delegated_url": "https://a.example",
