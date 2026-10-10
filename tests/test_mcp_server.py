@@ -334,6 +334,104 @@ def test_the_url_info_descriptions_explain_a_zero_http_status() -> None:
         assert "HttpStatus is 0" in description
 
 
+def test_every_tool_description_says_when_to_call_it() -> None:
+    """A description is the prompt the model reads before it picks a tool."""
+    for spec in mcp_server.TOOL_SPECS.values():
+        words = spec.description.split()
+        assert len(words) >= 25, spec.name
+        assert "Use when " in spec.description, spec.name
+        lead, marker, _rest = spec.description.partition(" Use when ")
+        assert lead.endswith("."), spec.name
+        assert marker == " Use when ", spec.name
+
+
+def test_close_tools_name_the_neighbor_to_call_instead() -> None:
+    pairs = (
+        ("bing_traffic_queries", "bing_traffic_query"),
+        ("bing_traffic_query", "bing_traffic_queries"),
+        ("bing_url_info", "bing_url_traffic_info"),
+        ("bing_url_traffic_info", "bing_url_info"),
+        ("bing_crawl_issues", "bing_crawl_stats"),
+        ("bing_crawl_stats", "bing_crawl_issues"),
+        ("bing_submit_url", "bing_submit_url_batch"),
+        ("bing_submit_url_batch", "bing_submit_url"),
+        ("bing_plan_submit_url", "bing_plan_submit_url_batch"),
+        ("bing_plan_submit_url_batch", "bing_plan_submit_url"),
+        ("bing_blocked_urls", "bing_page_preview_blocks"),
+        ("bing_keyword", "bing_keyword_stats"),
+        ("bing_keyword_stats", "bing_related_keywords"),
+        ("bing_indexnow_key_plan", "bing_indexnow_submit"),
+        ("bing_indexnow_key_plan", "bing_plan_indexnow_submit"),
+    )
+    for name, neighbor in pairs:
+        assert neighbor in mcp_server.TOOL_SPECS[name].description, name
+
+
+@pytest.mark.parametrize("allow_writes", ["true", "false"])
+async def test_listed_annotations_match_what_each_tool_does(
+    monkeypatch: pytest.MonkeyPatch, tmp_path, allow_writes: str
+) -> None:
+    """Exact hints as a client sees them: (readOnly, destructive, idempotent, openWorld)."""
+    monkeypatch.setenv("BING_WM_STATE_DIR", str(tmp_path))
+    monkeypatch.setenv("BING_WM_ALLOW_WRITES", allow_writes)
+    tools = (await mcp_server.list_tools()).tools
+    assert len(tools) == 63
+    for tool in tools:
+        ann = tool.annotations
+        got = (
+            ann.read_only_hint,
+            ann.destructive_hint,
+            ann.idempotent_hint,
+            ann.open_world_hint,
+        )
+        if tool.name in mcp_server.READ_TOOLS or tool.name in {"bing_plan_list", "bing_plan_show"}:
+            assert got == (True, False, True, False), tool.name
+        elif tool.name == "bing_indexnow_key_plan":
+            assert got == (True, False, True, True), tool.name
+        elif tool.name in mcp_server.WRITE_SPECS:
+            assert allow_writes == "true", tool.name
+            assert got == (False, True, False, True), tool.name
+        else:
+            assert tool.name in mcp_server.PLAN_SPECS, tool.name
+            assert allow_writes == "false", tool.name
+            assert got == (False, False, False, True), tool.name
+
+
+@pytest.mark.parametrize("allow_writes", [True, False])
+def test_descriptions_only_point_at_tools_listed_in_the_same_mode(allow_writes: bool) -> None:
+    """A neighbor the model cannot see is a dead end."""
+    every = set(mcp_server.tool_names(True)) | set(mcp_server.tool_names(False))
+    listed = mcp_server.tool_specs(allow_writes)
+    for name, spec in listed.items():
+        mentioned = set(re.findall(r"\bbing_[a-z_]+\b", spec.description)) & every
+        if name == "bing_indexnow_key_plan":
+            mentioned -= {"bing_indexnow_submit", "bing_plan_indexnow_submit"}
+        assert mentioned <= set(listed), (name, mentioned - set(listed))
+
+
+def test_plan_and_direct_descriptions_lead_with_their_own_effect() -> None:
+    for operation in WRITE_OPS:
+        direct = mcp_server.WRITE_SPECS[f"bing_{operation}"].description
+        plan = mcp_server.PLAN_SPECS[f"bing_plan_{operation}"].description
+        assert plan.startswith("Record a plan to "), operation
+        assert not direct.startswith("Record a plan"), operation
+        assert "a person must" in plan, operation
+        assert "a person must" not in direct, operation
+
+
+def test_keyword_and_block_descriptions_match_the_bing_api() -> None:
+    """GetKeyword totals a period, GetKeywordStats is the history; CacheOnly keeps the URL."""
+    specs = mcp_server.TOOL_SPECS
+    assert "totalled over" in specs["bing_keyword"].description
+    assert "historical" in specs["bing_keyword_stats"].description
+    assert "trended over time" in specs["bing_keyword_stats"].description
+    assert "trended" not in specs["bing_keyword"].description
+    assert "history; call bing_keyword_stats" in specs["bing_related_keywords"].description
+    for name in ("bing_add_blocked_url", "bing_plan_add_blocked_url"):
+        assert "CacheOnly" in specs[name].description, name
+        assert "FullRemoval" in specs[name].description, name
+
+
 ROLE_ARGS = {
     "site_url": "https://a.example",
     "delegated_url": "https://a.example",
