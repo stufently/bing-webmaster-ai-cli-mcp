@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Release: publish with `pypa/gh-action-pypi-publish` v1.14.2 instead of v1.9.0,
+  whose twine 5.1.0 cannot read the Metadata-Version 2.5 that hatchling 1.32 writes,
+  and run `twine check --strict` before the upload.
 - Mark additive one-step writes `destructiveHint: false`. `submit_url`,
   `submit_url_batch`, `submit_feed`, `fetch_url`, `indexnow_submit`,
   `add_site`, `verify_site`, `add_site_roles`, `add_connected_page`,
