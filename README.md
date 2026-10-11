@@ -186,6 +186,16 @@ the extension only records plans. Applying one needs the `bing-wm` CLI, which th
 extension does not put on your `PATH`: install it with pip as in [Install](#install),
 export the same key as `BING_WM_API_KEY` in that shell, then run `bing-wm plan apply`.
 
+The release includes `checksums.txt` with the SHA256 of every `.mcpb`.
+Download that file into the same directory as the bundle and check it before
+opening the extension:
+
+```bash
+sha256sum -c --ignore-missing checksums.txt   # run next to the downloaded .mcpb
+```
+
+On macOS, filter the bundle's line and check it with `shasum -a 256 -c -`.
+
 ### Cursor
 
 File: `~/.cursor/mcp.json` (every project) or `.cursor/mcp.json` (this project).

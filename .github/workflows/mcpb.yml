@@ -30,6 +30,8 @@ jobs:
           PY
       - name: Build the Desktop Extension
         run: bash scripts/build-mcpb.sh
+      - name: Compute SHA256 checksums for the bundles
+        run: bash scripts/mcpb-checksums.sh dist-mcpb dist-mcpb/checksums.txt
       - name: Attach the bundle to the GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -47,3 +49,4 @@ jobs:
             exit 1
           fi
           gh release upload "$GITHUB_REF_NAME" "${files[@]}" --clobber
+          gh release upload "$GITHUB_REF_NAME" dist-mcpb/checksums.txt --clobber
