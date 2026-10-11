@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The GitHub release now includes `checksums.txt` with a SHA256 checksum of
+  every `.mcpb` bundle.
+
 ## 0.1.2 — 2026-10-11
 
 - Release: publish with `pypa/gh-action-pypi-publish` v1.14.2 instead of v1.9.0,
