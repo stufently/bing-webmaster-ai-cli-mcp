@@ -7,6 +7,7 @@ Full-line YAML comments are dropped first, then every needle must occur in the
 remaining text, each one AFTER the previous match. Exit 0 when all are found in
 order; otherwise print the first missing needle and exit 1.
 """
+
 import sys
 from pathlib import Path
 
