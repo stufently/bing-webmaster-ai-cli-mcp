@@ -38,7 +38,13 @@ if [ "${#bundles[@]}" -eq 0 ]; then
   exit 1
 fi
 
-mapfile -t names < <(printf '%s\n' "${bundles[@]}" | LC_ALL=C sort)
+# A bundle name may contain a newline. Line-oriented sort would split that
+# name into two paths and checksum the wrong files.
+mapfile -d '' names < <(printf '%s\0' "${bundles[@]}" | LC_ALL=C sort -z)
+if [ "${#names[@]}" -eq 0 ]; then
+  echo "mcpb-checksums: failed to list bundles in ${dir}" >&2
+  exit 1
+fi
 
 sums_dir=$(dirname -- "$sums")
 tmp=$(mktemp "${sums_dir}/.mcpb-checksums.XXXXXX")
