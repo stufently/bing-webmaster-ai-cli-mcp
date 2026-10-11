@@ -20,7 +20,7 @@ def main() -> int:
         print(f"FAIL: no such workflow {path}", file=sys.stderr)
         return 1
     lines = path.read_text(encoding="utf-8").splitlines()
-    text = "\n".join(l for l in lines if not l.lstrip().startswith("#"))
+    text = "\n".join(line for line in lines if not line.lstrip().startswith("#"))
     pos = 0
     for needle in sys.argv[2:]:
         found = text.find(needle, pos)

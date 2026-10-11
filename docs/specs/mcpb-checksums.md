@@ -25,7 +25,7 @@
 |---|---|
 | `docs/specs/mcpb-checksums.md` | эта спека |
 | `docs/specs/mcpb-checksums-probe.sh` | `9074206f51684ea9f10ceb55b38133df5d0f0bb7083e9b5c718f378639035596` |
-| `docs/specs/mcpb-checksums-wiring.py` | `3fe4e1bfc7fea575553eb24865031501a4e351f51f3e7f3d8d3eb700597d146b` |
+| `docs/specs/mcpb-checksums-wiring.py` | `c4af69c77fd47f1eb4b3cf8b690ec90e5e77088990c321e25ab7380e755d7ae1` |
 
 Зависимости ставить не нужно: критериям нужны `bash`, `sha256sum`, `python3` (stdlib) на
 хосте и образ `rhysd/actionlint:1.7.12` (уже есть локально, внутри — `shellcheck` 0.11.0).
@@ -161,7 +161,7 @@ sha256sum -c --ignore-missing checksums.txt   # run next to the downloaded .mcpb
   `bash -c 'echo "9074206f51684ea9f10ceb55b38133df5d0f0bb7083e9b5c718f378639035596  docs/specs/mcpb-checksums-probe.sh" | sha256sum -c - && bash docs/specs/mcpb-checksums-probe.sh scripts/mcpb-checksums.sh'`
 - **AC-002.** Workflow вызывает скрипт после сборки и прикладывает файл к релизу (порядок
   шагов проверяется, строки-комментарии не считаются):
-  `bash -c 'echo "3fe4e1bfc7fea575553eb24865031501a4e351f51f3e7f3d8d3eb700597d146b  docs/specs/mcpb-checksums-wiring.py" | sha256sum -c - && python3 docs/specs/mcpb-checksums-wiring.py .github/workflows/mcpb.yml "bash scripts/build-mcpb.sh" "bash scripts/mcpb-checksums.sh dist-mcpb dist-mcpb/checksums.txt" "dist-mcpb/checksums.txt --clobber"'`
+  `bash -c 'echo "c4af69c77fd47f1eb4b3cf8b690ec90e5e77088990c321e25ab7380e755d7ae1  docs/specs/mcpb-checksums-wiring.py" | sha256sum -c - && python3 docs/specs/mcpb-checksums-wiring.py .github/workflows/mcpb.yml "bash scripts/build-mcpb.sh" "bash scripts/mcpb-checksums.sh dist-mcpb dist-mcpb/checksums.txt" "dist-mcpb/checksums.txt --clobber"'`
 - **AC-003.** `actionlint` 1.7.12 в Docker зелёный по всем workflow, `shellcheck` зелёный по
   новому скрипту:
   `bash -c 'docker run --rm -u 1002:1002 -v "$PWD":/repo -w /repo rhysd/actionlint:1.7.12 && docker run --rm -u 1002:1002 -v "$PWD":/repo -w /repo --entrypoint shellcheck rhysd/actionlint:1.7.12 scripts/mcpb-checksums.sh'`
