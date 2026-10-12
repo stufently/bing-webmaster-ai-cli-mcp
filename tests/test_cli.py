@@ -178,7 +178,9 @@ def test_plan_unlock_recovers_a_dead_apply_without_making_it_retryable(
 
 def test_submit_url_sends_immediately(tmp_path, monkeypatch) -> None:
     transport = bing_transport({"GetUrlSubmissionQuota": {"DailyQuota": 5}, "SubmitUrl": None})
-    monkeypatch.setattr(cli, "_load_settings", lambda **kwargs: fake_settings(tmp_path))
+    monkeypatch.setattr(
+        cli, "_load_settings", lambda **kwargs: fake_settings(tmp_path, allow_writes=True)
+    )
     monkeypatch.setattr(cli, "_transport", lambda: transport)
     result = CliRunner().invoke(
         cli.main, ["submit-url", "a.example", "https://a.example/p", "--json"]

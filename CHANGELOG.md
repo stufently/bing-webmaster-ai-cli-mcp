@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- **Breaking:** `BING_WM_ALLOW_WRITES` now defaults to `false`. Without an explicit
+  `BING_WM_ALLOW_WRITES=true` the MCP server lists no tool that changes Bing (only reads
+  and `bing_plan_<operation>`), and the CLI refuses one-step writes. Set it to `true` to
+  keep the previous direct-write behaviour.
+- The `.mcpb` release job also publishes a GitHub build provenance attestation for
+  every bundle (`actions/attest-build-provenance`); verify one with
+  `gh attestation verify <file>.mcpb --repo stufently/bing-webmaster-ai-cli-mcp`.
+
 - The GitHub release now includes `checksums.txt` with a SHA256 checksum of
   every `.mcpb` bundle.
 

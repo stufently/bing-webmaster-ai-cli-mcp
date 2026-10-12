@@ -1,9 +1,10 @@
 """stdio MCP server: direct reads, and writes that are either direct or planned.
 
-``BING_WM_ALLOW_WRITES`` picks which write tools are advertised. When it is on (the
-default) every write is a one-step ``bing_<operation>`` tool. When it is off the server
-advertises ``bing_plan_<operation>`` instead, which sends no change to Bing and leaves
-it for a human to apply with ``bing-wm plan apply``.
+``BING_WM_ALLOW_WRITES`` picks which write tools are advertised. When it is off (the
+default) the server advertises ``bing_plan_<operation>``, which sends no change to Bing
+and leaves it for a human to apply with ``bing-wm plan apply``. Only when an operator
+opts in with ``BING_WM_ALLOW_WRITES=true`` is every write a one-step ``bing_<operation>``
+tool.
 """
 
 from __future__ import annotations

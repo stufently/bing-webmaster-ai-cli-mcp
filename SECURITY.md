@@ -38,8 +38,8 @@ details.
 
 ## Least privilege
 
-- **`BING_WM_ALLOW_WRITES=false`** if the agent also reads text from the web. The MCP server then
-  offers only `bing_plan_<operation>` tools, which change nothing at Bing (planning a URL or
+- **Leave `BING_WM_ALLOW_WRITES` unset (or `false`, the default)** if the agent also reads text
+  from the web. The MCP server then offers only `bing_plan_<operation>` tools, which change nothing at Bing (planning a URL or
   content submission still reads its quota from Bing); a change reaches Bing only when you run
   `bing-wm plan apply` yourself. No MCP tool can apply or reject a plan in either mode.
 - **`BING_WM_DENIED_SITES`** lists sites that may never be changed; it is checked again when a

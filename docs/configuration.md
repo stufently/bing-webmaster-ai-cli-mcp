@@ -11,7 +11,7 @@ to plans or audit entries.
 | `BING_WM_MAX_ATTEMPTS` | `3` | attempts for retryable safe reads; writes never auto-retry |
 | `BING_WM_PLAN_TTL_SECONDS` | `900` | seconds before a plan expires |
 | `BING_WM_STATE_DIR` | `~/.local/state/bing-webmaster-ai-cli-mcp` (the pre-rename `~/.local/state/bing-webmaster-mcp` is used while only it exists) | plans, audit log, and local counters |
-| `BING_WM_ALLOW_WRITES` | `true` | `false` removes every one-step write and leaves only the reviewed plan path |
+| `BING_WM_ALLOW_WRITES` | `false` | `true` opts in to one-step writes; unset or `false` leaves only the reviewed plan path |
 | `BING_WM_DENIED_SITES` | `[]` | JSON list of sites that may never be mutated |
 | `BING_WM_MAX_WRITES_PER_DAY` | unset | optional operator local ceiling |
 | `BING_WM_HTTP_HOST` | `127.0.0.1` | literal loopback bind address |
@@ -22,9 +22,9 @@ to plans or audit entries.
 advertises one-step `bing_<operation>` tools and the CLI accepts `bing-wm write` and its
 shortcuts; the change reaches Bing on the first call. Off, the server advertises
 `bing_plan_<operation>` instead, which sends nothing, and the change reaches Bing only
-when a human runs `bing-wm plan apply`. Set it to `false` if an agent using this server
-also reads pages, anchor text, or crawl issues written by strangers: a confirmation an
-agent can send is a confirmation prompt injection can send. Everything else — the
+when a human runs `bing-wm plan apply`. It is off unless you set it: an agent using this
+server also reads pages, anchor text, or crawl issues written by strangers, and a
+confirmation an agent can send is a confirmation prompt injection can send. Everything else — the
 denylist, Bing's own quota check, `BING_WM_MAX_WRITES_PER_DAY`, one-shot application and
 the audit trail — applies to both paths.
 

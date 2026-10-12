@@ -25,11 +25,11 @@
           "name": "BING_WM_API_KEY"
         },
         {
-          "description": "Set to false to disable one-step writes and require plan-and-apply",
+          "description": "Set to true to enable one-step writes; unset or false keeps plan-and-apply",
           "isRequired": false,
           "format": "boolean",
           "isSecret": false,
-          "default": "true",
+          "default": "false",
           "name": "BING_WM_ALLOW_WRITES"
         }
       ]

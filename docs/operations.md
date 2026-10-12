@@ -21,15 +21,15 @@ accept `--json`; lists render as human-readable tables otherwise.
   your own host to see whether it is already served, and is on by default with
   `--key` (a key generated here cannot be published yet).
 
-One-step writes, available while `BING_WM_ALLOW_WRITES` is on (the default). They send
+One-step writes, available only when `BING_WM_ALLOW_WRITES=true` (off by default). They send
 the change immediately and print the applied plan:
 
 - `bing-wm submit-url|submit-urls|submit-sitemap|block-url`
 - `bing-wm indexnow submit`
 - `bing-wm write OPERATION --args-json OBJECT` covers every write below.
 
-The reviewed path stays available in both modes and is the only path when
-`BING_WM_ALLOW_WRITES=false`:
+The reviewed path stays available in both modes and is the only path by default
+(`BING_WM_ALLOW_WRITES` unset or `false`):
 
 - `bing-wm plan submit-url|submit-urls|submit-sitemap|block-url|indexnow`
 - `bing-wm plan create OPERATION --args-json OBJECT` covers every write below.
@@ -205,7 +205,7 @@ crawl-issue flag, so there is no such category. `http_codes` counts the raw
 always dispatchable, so a client holding a stale tool list gets the operation's real
 answer — a `POLICY_DENIED` for a disabled write — rather than "unknown tool".
 
-## MCP one-step write tools (`BING_WM_ALLOW_WRITES=true`, the default)
+## MCP one-step write tools (`BING_WM_ALLOW_WRITES=true`, opt-in)
 
 Each sends the change to Bing immediately and returns the applied plan ID, the operation
 and Bing's result. All are annotated `readOnlyHint: false`, `idempotentHint: false` and
@@ -253,7 +253,7 @@ idempotent, and still spends quota where Bing counts it. The classification live
 `ADDITIVE_WRITE_OPS` in `mcp_server.py`; a new write operation is destructive until it is
 listed there, and the test that pins every operation's value fails until it is classified.
 
-## MCP planning tools (`BING_WM_ALLOW_WRITES=false`)
+## MCP planning tools (`BING_WM_ALLOW_WRITES=false`, the default)
 
 Each returns a plan ID, summary, expiry, and CLI apply command. No change is sent to
 Bing; planning a quota-aware write does read Bing's quota.

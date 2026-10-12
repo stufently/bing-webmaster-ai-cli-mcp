@@ -518,7 +518,7 @@ def _write_context(tmp_path, settings):
 
 
 async def test_one_step_write_sends_the_change_and_records_an_applied_plan(tmp_path) -> None:
-    settings = fake_settings(tmp_path)
+    settings = fake_settings(tmp_path, allow_writes=True)
     audit, limiter = _write_context(tmp_path, settings)
     transport = bing_transport({"AddSite": None})
     async with BingClient(settings, transport=transport) as client:
@@ -557,11 +557,11 @@ async def test_one_step_write_is_refused_when_writes_are_disabled(tmp_path) -> N
 
 
 async def test_one_step_write_still_honours_the_denylist(tmp_path) -> None:
-    settings = fake_settings(tmp_path, denied_sites=("a.example",))
+    settings = fake_settings(tmp_path, denied_sites=("a.example",), allow_writes=True)
     audit, limiter = _write_context(tmp_path, settings)
     transport = bing_transport({"AddSite": None})
     async with BingClient(settings, transport=transport) as client:
-        with pytest.raises(PolicyDenied):
+        with pytest.raises(PolicyDenied, match="BING_WM_DENIED_SITES"):
             await execute_write(
                 "add_site",
                 sample_args("add_site"),
@@ -574,7 +574,7 @@ async def test_one_step_write_still_honours_the_denylist(tmp_path) -> None:
 
 
 async def test_one_step_write_still_honours_the_local_daily_ceiling(tmp_path) -> None:
-    settings = fake_settings(tmp_path, max_writes_per_day=1)
+    settings = fake_settings(tmp_path, max_writes_per_day=1, allow_writes=True)
     audit, limiter = _write_context(tmp_path, settings)
     transport = bing_transport({"AddSite": None})
     async with BingClient(settings, transport=transport) as client:
@@ -600,7 +600,7 @@ async def test_one_step_write_still_honours_the_local_daily_ceiling(tmp_path) ->
 
 async def test_a_failed_one_step_write_leaves_no_applicable_plan(tmp_path) -> None:
     """Nobody reviews a one-step plan, so a failed one must not stay applicable."""
-    settings = fake_settings(tmp_path, max_writes_per_day=1)
+    settings = fake_settings(tmp_path, max_writes_per_day=1, allow_writes=True)
     audit, limiter = _write_context(tmp_path, settings)
     limiter.consume("https://a.example", 1)
     transport = bing_transport({"AddSite": None})
@@ -622,7 +622,7 @@ async def test_a_failed_one_step_write_leaves_no_applicable_plan(tmp_path) -> No
 
 
 async def test_an_unknown_outcome_keeps_its_state_and_names_its_plan(tmp_path) -> None:
-    settings = fake_settings(tmp_path)
+    settings = fake_settings(tmp_path, allow_writes=True)
     audit, limiter = _write_context(tmp_path, settings)
     transport = httpx.MockTransport(lambda request: httpx.Response(503, json={"Message": "down"}))
     async with BingClient(settings, transport=transport) as client:
@@ -660,7 +660,7 @@ async def test_a_write_result_echoing_the_code_leaves_redacted(tmp_path) -> None
             }
         }
     )
-    settings = fake_settings(tmp_path)
+    settings = fake_settings(tmp_path, allow_writes=True)
     async with BingClient(settings, transport=transport) as client:
         outcome = await execute_write(
             "add_site_roles",
@@ -684,7 +684,7 @@ async def test_the_audit_trail_never_receives_the_code_from_a_failed_write(tmp_p
             400, json={"Message": f"code {ROLE_CODE} rejected"}, request=request
         )
     )
-    settings = fake_settings(tmp_path)
+    settings = fake_settings(tmp_path, allow_writes=True)
     async with BingClient(settings, transport=transport) as client:
         with pytest.raises(InvalidRequest):
             await execute_write(

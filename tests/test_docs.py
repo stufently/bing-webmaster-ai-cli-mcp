@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 PITCH = (
     "bing-webmaster-ai-cli-mcp gives an AI agent read access to what Bing knows about your sites "
     "— traffic, indexing, crawl issues, inbound links, keywords — and a write path you "
-    "choose: direct by default, or reviewed plan-and-apply."
+    "choose: reviewed plan-and-apply by default, or direct writes when you opt in."
 )
 
 
