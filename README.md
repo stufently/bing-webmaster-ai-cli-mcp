@@ -86,11 +86,12 @@ and pass it as `BING_WM_API_KEY`. Writes are planned for review unless you also 
 The package is on [PyPI](https://pypi.org/project/bing-webmaster-ai-cli-mcp/) as
 `bing-webmaster-ai-cli-mcp`. `uvx` caches what it installed and may keep running that
 version; `uvx bing-webmaster-ai-cli-mcp@latest` checks PyPI again, and
-`uvx bing-webmaster-ai-cli-mcp==0.1.2` pins one. This README follows `main`, so a change
+`uvx bing-webmaster-ai-cli-mcp==0.1.3` pins one. This README follows `main`, so a change
 listed under *Unreleased* in the [changelog](CHANGELOG.md) is not in the PyPI release
-yet. One of them matters for safety: in 0.1.2 `BING_WM_ALLOW_WRITES` still defaults to
-`true`. The command above and every client block below set it to `false` explicitly —
-keep it spelled out, since a cached 0.1.2 would go back to direct writes without it.
+yet. Since 0.1.3, `BING_WM_ALLOW_WRITES=false` is the default and the command above and
+the client blocks below would behave the same without it. They still spell it out:
+0.1.2 and earlier default to `true`, so a `uvx` cache still holding one of them would go
+back to direct writes if the setting were left out.
 To run `main` itself, use
 `uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp`.
 
