@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # Sigstore-signed build provenance for the .mcpb files.
+      id-token: write
+      attestations: write
     steps:
       # actions/checkout v7.0.1, the same pin as ci.yml and release.yml.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -32,6 +35,11 @@ jobs:
         run: bash scripts/build-mcpb.sh
       - name: Compute SHA256 checksums for the bundles
         run: bash scripts/mcpb-checksums.sh dist-mcpb dist-mcpb/checksums.txt
+      # actions/attest-build-provenance v4.2.2, resolved from the tag on 2026-10-12.
+      - name: Attest build provenance for the bundles
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8
+        with:
+          subject-path: dist-mcpb/*.mcpb
       - name: Attach the bundle to the GitHub release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
