@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.3 — 2026-10-12
+
 - **Breaking:** `BING_WM_ALLOW_WRITES` now defaults to `false`. Without an explicit
   `BING_WM_ALLOW_WRITES=true` the MCP server lists no tool that changes Bing (only reads
   and `bing_plan_<operation>`), and the CLI refuses one-step writes. Set it to `true` to
