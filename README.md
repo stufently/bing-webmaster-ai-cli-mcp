@@ -2,7 +2,7 @@
 
 <!-- mcp-name: io.github.stufently/bing-webmaster-ai-cli-mcp -->
 
-bing-webmaster-ai-cli-mcp gives an AI agent read access to what Bing knows about your sites — traffic, indexing, crawl issues, inbound links, keywords — and a write path you choose: direct by default, or reviewed plan-and-apply.
+bing-webmaster-ai-cli-mcp gives an AI agent read access to what Bing knows about your sites — traffic, indexing, crawl issues, inbound links, keywords — and a write path you choose: reviewed plan-and-apply by default, or direct writes when you opt in.
 
 It ships a Python 3.12+ CLI and MCP server for the JSON Bing Webmaster Tools API,
 plus protocol-correct IndexNow submission. SOAP and POX are deliberately absent.
@@ -13,19 +13,20 @@ Read tools always execute immediately. For everything that changes Bing state, o
 setting picks between two paths:
 
 ```console
-export BING_WM_ALLOW_WRITES=true    # default: writes go straight through
-export BING_WM_ALLOW_WRITES=false   # writes are planned and applied by a human
+export BING_WM_ALLOW_WRITES=false   # default: writes are planned and applied by a human
+export BING_WM_ALLOW_WRITES=true    # opt in: writes go straight through
 ```
 
-**If you are not sure, set it to `false`.** The default is convenience; `false` is the
-safe answer, and here is the reason. An agent using this server also reads pages, anchor
-text, crawl issues and search queries written by strangers. A confirmation an agent can
-send is a confirmation prompt injection can send, so as long as the agent can write, a
-poisoned string in someone else's anchor text can reach your Bing account. With
-`false`, nothing an agent does changes Bing until you have read the plan and run
-`bing-wm plan apply` yourself.
+**Read-only toward Bing is the default.** Without `BING_WM_ALLOW_WRITES=true` the server
+lists no tool that changes Bing, and the CLI refuses one-step writes. Here is the reason.
+An agent using this server also reads pages, anchor text, crawl issues and search queries
+written by strangers. A confirmation an agent can send is a confirmation prompt injection
+can send, so as long as the agent can write, a poisoned string in someone else's anchor
+text can reach your Bing account. With the default, nothing an agent does changes Bing
+until you have read the plan and run `bing-wm plan apply` yourself. Opt in only for an
+agent you trust with your Bing account.
 
-### Direct writes (default)
+### Direct writes (`BING_WM_ALLOW_WRITES=true`)
 
 The MCP server advertises one-step `bing_<operation>` tools, and the CLI accepts:
 
@@ -38,7 +39,7 @@ A direct write is not idempotent: retrying one records a new plan and sends the 
 again. If a response is lost, read `audit.jsonl` or `bing-wm plan list` before repeating
 the call.
 
-### Reviewed writes (`BING_WM_ALLOW_WRITES=false`)
+### Reviewed writes (default, `BING_WM_ALLOW_WRITES=false`)
 
 The server advertises `bing_plan_<operation>` instead. Those tools send nothing:
 
@@ -79,8 +80,8 @@ uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing
 
 That one command starts the stdio MCP server. Every client block below runs the same
 `uvx` command. Create an API key in Bing Webmaster Tools under Settings → API Access
-and pass it as `BING_WM_API_KEY`. If you are not sure about writes, also set
-`BING_WM_ALLOW_WRITES=false` — see [Choosing a write path](#choosing-a-write-path).
+and pass it as `BING_WM_API_KEY`. Writes are planned for review unless you also set
+`BING_WM_ALLOW_WRITES=true` — see [Choosing a write path](#choosing-a-write-path).
 
 The package is not on PyPI yet. Until it is, `uvx bing-webmaster-ai-cli-mcp` (a PyPI
 name, with no `--from`) does nothing useful. The command above is the install path.
@@ -108,16 +109,34 @@ all settings.
 - Is this URL indexed, and when did Bing last fetch it?
 - Submit this new page to Bing, but let me review the change first.
 
+## Verified clients and platforms
+
+Only what has actually been run is listed as verified. Everything else in
+[Add the MCP server to your AI client](#add-the-mcp-server-to-your-ai-client) is a
+documented config that nobody has checked end to end.
+
+| Client / runtime | OS | How it runs | Status | Evidence |
+|---|---|---|---|---|
+| Claude Code 2.1 | Ubuntu 26.04 LTS, x86_64 | Docker image built locally from this repo, stdio, direct writes opted in | Verified | Daily use on the maintainer's host, reads and writes in the audit trail |
+| `bing-wm` CLI | Ubuntu 26.04 LTS, x86_64 | Same Docker image | Verified | Maintainer's host |
+| Codex CLI 0.162 | Ubuntu 26.04 LTS, x86_64 | Same Docker image, stdio | Configured, not checked separately | Maintainer's host config |
+| Python 3.12, 3.13, 3.14 | Ubuntu (`ubuntu-latest`) | Lint, tests, stdio MCP smoke test | Verified in CI | `ci.yml` |
+| Docker image | Ubuntu (`ubuntu-latest`) | Image builds and does not run as root | Verified in CI | `ci.yml`, job `container` |
+| `uvx --from git+…` | any | Install path from [Install](#install) | Not verified | Documented only |
+| Claude Desktop (`.mcpb`) | macOS, Windows | Desktop Extension | Not verified | Bundle is built in CI, never installed in a real Desktop |
+| Cursor, Windsurf, Zed | any | Configs below | Not verified | Documented only |
+| macOS, Windows | — | Any client | Not verified | No CI runner on these systems |
+
 ## Add the MCP server to your AI client
 
 Every JSON block below runs the same `uvx` command as [Install](#install).
-`BING_WM_ALLOW_WRITES` is `false` here, so writes are planned and you apply them.
-Remove that variable for direct writes — see
+`BING_WM_ALLOW_WRITES` is `false` here (the default, spelled out), so writes are planned
+and you apply them. Set it to `true` for direct writes — see
 [Choosing a write path](#choosing-a-write-path). Keep the key in a user-level config,
 not in a project file you commit. The server exposes 34 Bing read tools, one local
 read-only tool (`bing_indexnow_key_plan`), plan inspection, and one write tool per
-supported operation — direct `bing_<operation>` tools by default, or
-`bing_plan_<operation>` tools when `BING_WM_ALLOW_WRITES=false`. It exposes no plan
+supported operation — `bing_plan_<operation>` tools by default, or direct
+`bing_<operation>` tools when `BING_WM_ALLOW_WRITES=true`. It exposes no plan
 application or rejection tool. Restart the server after changing the setting so the
 client refreshes its tool list.
 
@@ -195,6 +214,14 @@ sha256sum -c --ignore-missing checksums.txt   # run next to the downloaded .mcpb
 ```
 
 On macOS, filter the bundle's line and check it with `shasum -a 256 -c -`.
+
+Releases from the next tag on also carry a GitHub build provenance attestation for each
+`.mcpb`, signed in the release workflow. Check that a bundle was built by this
+repository's workflow and not swapped afterwards (needs the GitHub CLI):
+
+```bash
+gh attestation verify <bundle>.mcpb --repo stufently/bing-webmaster-ai-cli-mcp
+```
 
 ### Cursor
 

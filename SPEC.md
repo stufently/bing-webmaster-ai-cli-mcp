@@ -17,7 +17,7 @@ An MCP server and CLI over the **Bing Webmaster Tools API**, plus first-class
 One sentence for the README and for anything that quotes it: *bing-webmaster-ai-cli-mcp
 gives an AI agent read access to what Bing knows about your sites — traffic,
 indexing, crawl issues, inbound links, keywords — and a write path you choose:
-direct by default, or reviewed plan-and-apply.*
+reviewed plan-and-apply by default, or direct writes when you opt in.*
 
 ### Why it exists
 
@@ -48,8 +48,8 @@ The three openings, in priority order:
 
 1. **A review gate available on every mutating call.** Neither competitor has
    one. `BING_WM_ALLOW_WRITES=false` routes every write through plan-and-apply
-   (§6). It is off by default — an operator who wants the gate opts into it —
-   but the gate itself remains the main differentiator.
+   (§6). It is on by default — direct writes are the opt-in
+   (`BING_WM_ALLOW_WRITES=true`) — and the gate remains the main differentiator.
 2. **First-class, protocol-correct IndexNow** (§8) — batch, key-file handling,
    fan-out to all participating engines, honest response-code mapping.
 3. **Complete Bing coverage in a focused server**, rather than Bing as an
@@ -226,11 +226,11 @@ Treat codes as a public contract: renaming one is a breaking change.
 Every write in §4, plus IndexNow submission, takes one of two paths. A single
 boolean setting picks which, and which MCP tools are advertised.
 
-**`true` (default) — direct.** One `bing_<operation>` MCP tool per write, and
+**`true` (opt-in) — direct.** One `bing_<operation>` MCP tool per write, and
 `bing-wm write` plus its shortcuts on the CLI. The change reaches Bing on the
 first call, with no separate approval.
 
-**`false` — reviewed.** The write is split in two:
+**`false` (default) — reviewed.** The write is split in two:
 
 1. `bing_plan_<operation>` validates arguments, resolves the target site, checks
    quota where relevant, records the intent, and returns `plan_id` + a

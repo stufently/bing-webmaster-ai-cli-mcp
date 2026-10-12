@@ -19,10 +19,10 @@ def test_applying_or_rejecting_a_recorded_plan_is_never_an_mcp_tool() -> None:
         assert not any("apply" in name or "reject" in name for name in names)
 
 
-def test_writes_are_one_step_by_default() -> None:
+def test_writes_are_planned_by_default() -> None:
     names = set(mcp_server.tool_names())
-    assert "bing_submit_url" in names
-    assert "bing_plan_submit_url" not in names
+    assert "bing_plan_submit_url" in names
+    assert "bing_submit_url" not in names
 
 
 def test_write_mode_advertises_one_step_tools() -> None:
@@ -191,13 +191,25 @@ async def test_disabling_writes_switches_the_advertised_tools(
     assert "BING_WM_ALLOW_WRITES" in mcp_server._instructions()
 
 
-async def test_writes_enabled_is_the_advertised_default(
+async def test_no_tool_that_changes_bing_is_listed_without_opt_in(
+    monkeypatch: pytest.MonkeyPatch, tmp_path
+) -> None:
+    """Without BING_WM_ALLOW_WRITES=true the client sees reads and plan tools only."""
+    monkeypatch.setenv("BING_WM_STATE_DIR", str(tmp_path))
+    tools = (await mcp_server.list_tools()).tools
+    names = {tool.name for tool in tools}
+    assert not names & {f"bing_{operation}" for operation in WRITE_OPS}
+    assert {f"bing_plan_{operation}" for operation in WRITE_OPS} <= names
+
+
+async def test_opting_in_lists_the_one_step_write_tools(
     monkeypatch: pytest.MonkeyPatch, tmp_path
 ) -> None:
     monkeypatch.setenv("BING_WM_STATE_DIR", str(tmp_path))
-    names = [tool.name for tool in (await mcp_server.list_tools()).tools]
-    assert "bing_add_site" in names
-    assert "bing_plan_add_site" not in names
+    monkeypatch.setenv("BING_WM_ALLOW_WRITES", "true")
+    names = {tool.name for tool in (await mcp_server.list_tools()).tools}
+    assert {f"bing_{operation}" for operation in WRITE_OPS} <= names
+    assert not names & {f"bing_plan_{operation}" for operation in WRITE_OPS}
 
 
 def test_a_broken_environment_falls_back_to_the_planning_mode(

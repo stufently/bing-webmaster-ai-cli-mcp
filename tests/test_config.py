@@ -132,20 +132,20 @@ def test_denylist_entry_that_normalises_to_nothing_is_refused(tmp_path, entry: s
         Settings(api_key="k", state_dir=tmp_path, denied_sites=(entry,))
 
 
-def test_writes_are_allowed_unless_the_operator_turns_them_off(
+def test_writes_are_refused_until_the_operator_opts_in(
     monkeypatch: pytest.MonkeyPatch, tmp_path
 ) -> None:
     monkeypatch.setenv("BING_WM_API_KEY", "secret-key")
     monkeypatch.setenv("BING_WM_STATE_DIR", str(tmp_path))
-    assert Settings.load().allow_writes is True
-    Settings.load().check_writes_allowed()
-
-    monkeypatch.setenv("BING_WM_ALLOW_WRITES", "false")
     settings = Settings.load()
     assert settings.allow_writes is False
     with pytest.raises(PolicyDenied) as caught:
         settings.check_writes_allowed()
     assert "BING_WM_ALLOW_WRITES" in caught.value.to_dict()["message"]
+
+    monkeypatch.setenv("BING_WM_ALLOW_WRITES", "true")
+    assert Settings.load().allow_writes is True
+    Settings.load().check_writes_allowed()
 
 
 def test_apikey_auth_declares_the_literal_it_puts_in_the_request() -> None:

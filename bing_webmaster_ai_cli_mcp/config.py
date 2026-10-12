@@ -36,7 +36,7 @@ class Settings(BaseSettings):
     max_attempts: int = Field(default=3, ge=1, le=10)
     plan_ttl_seconds: int = Field(default=900, gt=0)
     state_dir: Path = Field(default_factory=_default_state_dir)
-    allow_writes: bool = True
+    allow_writes: bool = False
     denied_sites: tuple[str, ...] = ()
     max_writes_per_day: int | None = Field(default=None, gt=0)
     http_host: str = "127.0.0.1"
