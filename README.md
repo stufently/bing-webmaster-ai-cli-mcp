@@ -75,7 +75,7 @@ recovery is audited.
 ## Install
 
 ```console
-uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp
+BING_WM_ALLOW_WRITES=false uvx bing-webmaster-ai-cli-mcp
 ```
 
 That one command starts the stdio MCP server. Every client block below runs the same
@@ -83,16 +83,23 @@ That one command starts the stdio MCP server. Every client block below runs the 
 and pass it as `BING_WM_API_KEY`. Writes are planned for review unless you also set
 `BING_WM_ALLOW_WRITES=true` — see [Choosing a write path](#choosing-a-write-path).
 
-The package is not on PyPI yet. Until it is, `uvx bing-webmaster-ai-cli-mcp` (a PyPI
-name, with no `--from`) does nothing useful. The command above is the install path.
-PyPI publishing is switched off in `release.yml`: it is enabled by the repository
-variable `PYPI_PUBLISH=true` once the PyPI Trusted Publisher is set up.
+The package is on [PyPI](https://pypi.org/project/bing-webmaster-ai-cli-mcp/) as
+`bing-webmaster-ai-cli-mcp`. `uvx` caches what it installed and may keep running that
+version; `uvx bing-webmaster-ai-cli-mcp@latest` checks PyPI again, and
+`uvx bing-webmaster-ai-cli-mcp==0.1.2` pins one. This README follows `main`, so a change
+listed under *Unreleased* in the [changelog](CHANGELOG.md) is not in the PyPI release
+yet. One of them matters for safety: in 0.1.2 `BING_WM_ALLOW_WRITES` still defaults to
+`true`. The command above and every client block below set it to `false` explicitly —
+keep it spelled out, since a cached 0.1.2 would go back to direct writes without it.
+To run `main` itself, use
+`uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp`.
 
-A checkout still installs with pip (Python 3.12+) and puts `bing-wm`,
-`bing-webmaster-ai-cli-mcp` and `bing-webmaster-ai-cli-mcp-http` on `PATH`:
+pip (Python 3.12+) installs the same package and puts `bing-wm`,
+`bing-webmaster-ai-cli-mcp` and `bing-webmaster-ai-cli-mcp-http` on `PATH` — in a
+virtualenv, or with `pipx install bing-webmaster-ai-cli-mcp`:
 
 ```console
-python -m pip install "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git"
+python -m pip install bing-webmaster-ai-cli-mcp
 export BING_WM_API_KEY='…'
 bing-wm sites list
 ```
@@ -122,7 +129,7 @@ documented config that nobody has checked end to end.
 | Codex CLI 0.162 | Ubuntu 26.04 LTS, x86_64 | Same Docker image, stdio | Configured, not checked separately | Maintainer's host config |
 | Python 3.12, 3.13, 3.14 | Ubuntu (`ubuntu-latest`) | Lint, tests, stdio MCP smoke test | Verified in CI | `ci.yml` |
 | Docker image | Ubuntu (`ubuntu-latest`) | Image builds and does not run as root | Verified in CI | `ci.yml`, job `container` |
-| `uvx --from git+…` | any | Install path from [Install](#install) | Not verified | Documented only |
+| `uvx bing-webmaster-ai-cli-mcp` (PyPI 0.1.2) | Linux x86_64 | Install path from [Install](#install), uv 0.13 in Docker | MCP `initialize` answered, no client attached | Maintainer's host, 2026-10-12 |
 | Claude Desktop (`.mcpb`) | macOS, Windows | Desktop Extension | Not verified | Bundle is built in CI, never installed in a real Desktop |
 | Cursor, Windsurf, Zed | any | Configs below | Not verified | Documented only |
 | macOS, Windows | — | Any client | Not verified | No CI runner on these systems |
@@ -150,8 +157,6 @@ Project file: `.mcp.json` in the project root.
     "bing-webmaster": {
       "command": "uvx",
       "args": [
-        "--from",
-        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
         "bing-webmaster-ai-cli-mcp"
       ],
       "env": {
@@ -168,7 +173,7 @@ Or from the terminal:
 ```console
 claude mcp add bing-webmaster --scope user \
   --env BING_WM_API_KEY=your-api-key --env BING_WM_ALLOW_WRITES=false \
-  -- uvx --from "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git" bing-webmaster-ai-cli-mcp
+  -- uvx bing-webmaster-ai-cli-mcp
 ```
 
 ### Claude Desktop
@@ -184,8 +189,6 @@ File: `claude_desktop_config.json` — macOS
     "bing-webmaster": {
       "command": "uvx",
       "args": [
-        "--from",
-        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
         "bing-webmaster-ai-cli-mcp"
       ],
       "env": {
@@ -233,8 +236,6 @@ File: `~/.cursor/mcp.json` (every project) or `.cursor/mcp.json` (this project).
     "bing-webmaster": {
       "command": "uvx",
       "args": [
-        "--from",
-        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
         "bing-webmaster-ai-cli-mcp"
       ],
       "env": {
@@ -259,8 +260,6 @@ File: `mcp_config.json` — macOS and Linux `~/.config/devin/mcp_config.json`
     "bing-webmaster": {
       "command": "uvx",
       "args": [
-        "--from",
-        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
         "bing-webmaster-ai-cli-mcp"
       ],
       "env": {
@@ -282,8 +281,6 @@ File: `settings.json` — Linux and macOS `~/.config/zed/settings.json`.
     "bing-webmaster": {
       "command": "uvx",
       "args": [
-        "--from",
-        "git+https://github.com/stufently/bing-webmaster-ai-cli-mcp.git",
         "bing-webmaster-ai-cli-mcp"
       ],
       "env": {
