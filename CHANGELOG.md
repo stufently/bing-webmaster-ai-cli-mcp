@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.4 — 2026-10-14
+
 - Restore the `bing-webmaster-mcp` console script as an alias of
   `bing-webmaster-ai-cli-mcp`. The 18.09 rename dropped it, and Glama's build, which
   starts `uv run bing-webmaster-mcp`, failed with "Failed to spawn".
