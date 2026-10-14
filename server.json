@@ -7,12 +7,12 @@
     "url": "https://github.com/stufently/bing-webmaster-ai-cli-mcp",
     "source": "github"
   },
-  "version": "0.1.3",
+  "version": "0.1.4",
   "packages": [
     {
       "registryType": "pypi",
       "identifier": "bing-webmaster-ai-cli-mcp",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "transport": {
         "type": "stdio"
       },
