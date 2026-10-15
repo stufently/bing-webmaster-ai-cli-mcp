@@ -229,6 +229,10 @@ gh attestation verify <bundle>.mcpb --repo stufently/bing-webmaster-ai-cli-mcp
 
 ### Cursor
 
+[![Add bing-webmaster MCP server to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en/install-mcp?name=bing-webmaster&config=eyJjb21tYW5kIjoidXZ4IiwiYXJncyI6WyJiaW5nLXdlYm1hc3Rlci1haS1jbGktbWNwIl0sImVudiI6eyJCSU5HX1dNX0FQSV9LRVkiOiJ5b3VyLWFwaS1rZXkiLCJCSU5HX1dNX0FMTE9XX1dSSVRFUyI6ImZhbHNlIn19)
+
+After installing, replace the placeholder values in `~/.cursor/mcp.json`. Or add the block below by hand.
+
 File: `~/.cursor/mcp.json` (every project) or `.cursor/mcp.json` (this project).
 
 ```json
