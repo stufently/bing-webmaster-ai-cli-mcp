@@ -1,0 +1,53 @@
+# Site config for .github/site/build.py. Everything else comes from README.md.
+name = "bing-webmaster-ai-cli-mcp"
+title = "Bing Webmaster MCP server and CLI for AI agents"
+headline = "MCP server and CLI for Bing Webmaster Tools"
+description = "Give an AI agent Bing Webmaster data: traffic, indexing, crawl issues, links, keywords, plus reviewed writes and IndexNow. Run with uvx, MIT."
+lang = "en"
+keywords = ["bing webmaster tools", "mcp server", "bing webmaster api", "indexnow", "cli", "claude code", "seo"]
+license = "MIT"
+license_url = "https://opensource.org/license/mit"
+category = "DeveloperApplication"
+os = "Linux, macOS, Windows"
+programming_language = "Python"
+eyebrow = "Open source · MIT · Python 3.12+"
+og_image = "docs/assets/social-preview.png"
+download_url = "https://pypi.org/project/bing-webmaster-ai-cli-mcp/"
+same_as = ["https://pypi.org/project/bing-webmaster-ai-cli-mcp/"]
+
+landing_sections = ["Install", "Example prompts", "Choosing a write path"]
+
+pages = ["SKILL.md"]
+
+features = [
+  "Read what Bing knows about your sites: traffic, indexing, crawl issues, inbound links and keywords.",
+  "Reviewed writes by default: the agent records a plan, and only you apply it with bing-wm plan apply.",
+  "Optional direct writes with BING_WM_ALLOW_WRITES=true, behind the same denylist, quota check and audit trail.",
+  "Protocol-correct IndexNow submission that checks the key file before sending the batch.",
+  "Verification codes and the API key are redacted in every response; untrusted text is marked as data.",
+  "59 of the 62 Microsoft API methods supported, over the JSON API only; SOAP and POX are absent.",
+]
+
+[[faq]]
+q = "How do I install the Bing Webmaster MCP server?"
+a = "Run BING_WM_ALLOW_WRITES=false uvx bing-webmaster-ai-cli-mcp to start the stdio MCP server, with an API key from Bing Webmaster Tools (Settings, API Access) in BING_WM_API_KEY. pip install bing-webmaster-ai-cli-mcp (Python 3.12+) also puts the bing-wm CLI on PATH."
+
+[[faq]]
+q = "Can the agent change my Bing account?"
+a = "Not by default. Without BING_WM_ALLOW_WRITES=true the server lists no tool that changes Bing: write tools only record a plan, and a human applies it at the CLI with bing-wm plan apply. No MCP tool takes a plan ID in either mode."
+
+[[faq]]
+q = "Which AI clients does it work with?"
+a = "Any MCP client over stdio. The README has configs for Claude Code, Claude Desktop, Cursor, Windsurf and Zed; Claude Code and the bing-wm CLI are verified on the maintainer's host, the others are documented only."
+
+[[faq]]
+q = "Does IndexNow work with Google?"
+a = "No. Google does not participate in IndexNow. The IndexNow registry lists Bing, Yandex, Seznam, Naver, Yep, Internet Archive and Amazonbot, and submission through api.indexnow.org fans out to participating engines."
+
+[[faq]]
+q = "How do I check if Bing has indexed my page?"
+a = "Run bing-wm index url example.com https://example.com/page. Over MCP the bing_url_info tool reads the same data; HttpStatus 0 there means Bing reports no status, not 200."
+
+[[faq]]
+q = "Which parts of the Bing Webmaster API are covered?"
+a = "The Microsoft interface has 62 methods: 59 are supported and three obsolete deep-link methods are excluded. Only the JSON API is used; SOAP, POX, the Bing Search API, Google Search Console and GA4 are out of scope."
