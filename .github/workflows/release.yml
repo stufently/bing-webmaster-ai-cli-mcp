@@ -53,4 +53,4 @@ jobs:
       # pypa/gh-action-pypi-publish v1.14.2 (twine 7.0.0, packaging 26.2), resolved
       # from the annotated tag on 2026-10-11. v1.9.0 bundled twine 5.1.0, which
       # cannot read Metadata-Version 2.5 and would reject the build.
-      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33
+      - uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086
